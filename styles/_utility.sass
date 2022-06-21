@@ -1,0 +1,76 @@
+@use './mixins' as *
+
+$fractions: 25, 33, 50, 66, 75, 100
+
+@include generate-heightwidth-utility('.min-vh', 'min-height', 1vh)
+@include generate-heightwidth-utility('.min-vw', 'min-height', 1vw)
+@include generate-heightwidth-utility('.min-h', 'min-height')
+@include generate-heightwidth-utility('.min-w', 'min-height')
+@include generate-heightwidth-utility('.h', 'height')
+@include generate-heightwidth-utility('.w', 'height')
+
+.gap
+    &-0
+        gap: 0
+
+.p
+    @include generate-space-utility ('padding')
+
+.m
+    @include generate-space-utility ('margin')
+
+.border
+    border-width: 1px
+
+    &-ms
+        border-inline-start-width: 1px
+    
+    &-me
+        border-inline-end-width: 1px
+
+    &-mt
+        border-block-start-width: 1px
+
+    &-mb
+        border-block-end-width: 1px
+
+@include generate-color-utility ('.bg', 'background-color')
+@include generate-color-utility ('.border', 'border-color')
+@include generate-color-utility ('.text', 'color')
+
+.square
+    aspect-ratio: 1
+
+    @include generate-breakpoints () using ($breakpoint)
+        &-#{$breakpoint}
+            aspect-ratio: 1
+
+.widescreen
+    aspect-ratio: 16/9
+
+    @include generate-breakpoints () using ($breakpoint)
+        &-#{$breakpoint}
+            aspect-ratio: 16/9
+
+.ultrawide
+    aspect-ratio: 21/9
+
+    @include generate-breakpoints () using ($breakpoint)
+        &-#{$breakpoint}
+            aspect-ratio: 21/9
+
+.contain
+    object-fit: contain
+
+.rounded
+    border-radius: 1em
+
+.icon
+    --scale: 2em
+    max-height: var(--scale)
+    max-width: var(--scale)
+    height: 100%
+    width: 100%
+
+    &-double
+        --scale: 4em

@@ -1,0 +1,207 @@
+@use 'fonts'
+@use './mixins' as *
+
+:root
+    @include color-variants ('purple', #9146FF)
+    @include color-variants ('ice', #F0F0FF)
+    @include color-variants ('red', #d8665d)
+    @include color-variants ('light', #ebeade)
+    @include color-variants ('dark', #363535)
+    --transition: all 250ms
+
+body
+    background-color: var(--dark-700)
+    color: var(--ice)
+    font-family: Inter, sans-serif
+
+ul
+    list-style-type: none
+
+img
+    object-fit: cover
+
+a, .link, button, .button
+    cursor: pointer
+    color: var(--dark-600)
+    font-weight: 600
+    text-decoration: none
+    transition: var(--transition)
+
+a, .link
+    position: relative
+    color: var(--color, currentColor)
+
+    &:before
+        content: ''
+        position: absolute
+        top: 100%
+        left: 50%
+        right: 50%
+        border-top: .125em solid
+        opacity: 0
+        transition: var(--transition)
+
+    &:hover, &:focus, &:focus-within
+        color: var(--color--hover, currentColor)
+        &::before
+            left: 0%
+            right: 0%
+            opacity: 1
+
+    @include generate-variants () using ($variant)
+        &.text-#{$variant}
+            --color: var(--#{$variant}-300)
+            --color--hover: var(--#{$variant}-200)
+
+button, .button
+    --bg-color: grey
+    --bg-color--hover: lightgrey
+    --bg-color--active: black
+    --text-color: var(--dark-400)
+    --text-color--hover: var(--text-color)
+    --text-color--active: var(--text-color)
+
+    display: inline-block
+    border: .01em solid
+    border-radius: .25em
+    color: var(--text-color)
+    border-color: var(--bg-color)
+    background-color: var(--bg-color)
+    padding: .5em .75em
+    box-shadow: 0 0 1em 0 rgba(0,0,0,0.2)
+
+    &:hover, &:focus, &:focus-within
+        color: var(--text-color--hover)
+        border-color: var(--bg-color--hover)
+        background-color: var(--bg-color--hover)
+    
+    &:active
+        color: var(--text-color--active)
+        border-color: var(--bg-color--active)
+        background-color: var(--bg-color--active)
+
+    @include generate-variants () using ($variant)
+        &[variant="#{$variant}"]
+            --bg-color: var(--#{$variant}-400)
+            --bg-color--hover: var(--#{$variant}-300)
+            --bg-color--active: var(--#{$variant}-600)
+            --text-color: var(--dark-400)
+            @if $variant == 'dark'
+                --text-color: var(--light-400)
+    
+    &[fill="false"]
+        background-color: transparent
+
+        &:active
+            background-color: var(--bg-color--active)
+
+        @include generate-variants () using ($variant)
+            &[variant="#{$variant}"]
+                --bg-color--active: var(--#{$variant}-200)
+                --text-color: var(--#{$variant}-400)
+                --text-color--active: var(--dark-400)
+                @if $variant == 'dark'
+                    --text-color--active: var(--light-400)          
+
+figure
+    margin-block-start: .5em
+    margin-block-end: .5em
+    margin-inline-start: .5em
+    margin-inline-end: .5em
+
+blockquote, .quote
+    --marker-color: white
+
+    display: inline-flex
+    flex-flow: row
+    align-items: center
+
+    margin-block-start: .25em
+    margin-block-end: .25em
+    margin-inline-start: .25em
+    margin-inline-end: .25em
+
+    &::before, &::after
+        color: var(--marker-color)
+        font-size: 2em
+
+    &::before
+        content: "❝"
+        float: left
+        align-self: flex-start
+        line-height: 1em
+        margin-inline-end: 1ch
+
+    &::after
+        content: "❞"
+        float: right
+        align-self: flex-end
+        line-height: .25em
+        margin-inline-start: 1ch
+
+    @include generate-variants () using ($variant)
+        &[marker="#{$variant}"]
+            --marker-color: var(--#{$variant}-300)
+
+figcaption
+    margin-inline-start: 4ch
+    margin-inline-end: 4ch
+    font-style: italic
+
+    &::before
+        content: "—"
+        margin-inline-end: 1ch
+
+.container
+    --max-width: 1024px
+
+    width: 100%
+    display: flex
+    flex-flow: column
+    align-items: center
+    padding-block-start: 4em
+    padding-block-end: 4em
+    padding-inline-start: 2em
+    padding-inline-end: 2em
+
+    & > *
+        max-width: var(--max-width)
+        width: 100%
+
+.flow
+    // Every child element that isn't the first will have style applied with > * + * selector.
+    
+    // Means that adding "variant='row'" applies margin inline instead,
+    // but otherwise normally applies margin block.
+    &:not([variant="row"]) > * + *
+        margin-block-start: var(--flow-space, 2rem)
+        
+    &[variant="row"] > * + *
+        margin-inline-start: var(--flow-space, 2rem)
+
+.grid
+    --columns: 2
+    display: grid
+    grid-template-columns: [first] repeat(var(--columns), 1fr) [end]
+    gap: 2rem
+
+    @include min-width(md)
+        --columns: 4
+    
+    &-half
+        --columns: 1
+
+        @include min-width(md)
+            --columns: 2
+
+.group
+    display: flex
+    flex-flow: row
+
+    @include generate-breakpoints () using ($breakpoint)
+        &-#{$breakpoint}
+            display: flex
+            flex-flow: row
+
+            & > *
+                flex-grow: 1

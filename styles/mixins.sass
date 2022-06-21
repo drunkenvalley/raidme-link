@@ -1,0 +1,94 @@
+@use 'sass:map'
+@use 'sass:color'
+@use 'sass:selector'
+
+$breakpoints: ("xs": 0px, "sm": 576px, "md": 768px, "lg": 992px, "xl": 1200px, "xxl": 1400px)
+$variants: "light", "dark", "red", "purple", "ice"
+$sides: ("s": 'inline-start', "t": "block-start", "e": "inline-end", "b": "block-end")
+$fractions: 25, 33, 50, 66, 75, 100
+$space: .5rem
+$multiplier_levels: 10
+
+@mixin min-width($size)
+    $width: map.get($breakpoints, $size)
+
+    @media (min-width: $width)
+        @content
+
+@mixin color-variants ($name, $color)
+    --#{$name}: #{$color}
+    @for $i from 1 through 9
+        $num: $i*100
+        $val: (4-$i)*5
+        --#{$name}-#{$num}: #{color.adjust($color, $lightness: $val*1%)}
+
+@mixin generate-variants ()
+    @each $variant in $variants
+        @content ($variant)
+
+@mixin generate-intensity ()
+    @for $i from 1 through 9
+        $intensity: $i*100
+        @content ($intensity)
+
+@mixin generate-color-utility ($selector, $property)
+    #{$selector}
+        @include generate-variants () using ($variant)
+            &-#{$variant}
+                #{$property}: var(--#{$variant}-400)
+
+            @include generate-intensity () using ($intensity)
+                &-#{$variant}-#{$intensity}
+                    #{$property}: var(--#{$variant}-#{$intensity})
+
+@mixin generate-heightwidth-utility($selector, $property, $baseval: 1%)
+    #{$selector}
+        @each $fraction in $fractions
+            &-#{$fraction}
+                #{$property}: $fraction * $baseval
+            
+            @include generate-breakpoints () using ($breakpoint)
+                &-#{$breakpoint}-#{$fraction}
+                    #{$property}: $fraction * $baseval
+
+@mixin generate-breakpoints ()
+    @each $breakpoint, $width in $breakpoints
+        @if $breakpoint == 'xs'
+            @media (max-width: map.get($breakpoints, 'sm') - 0.1px)
+                @content ($breakpoint)
+
+        @else
+            @media (min-width: $width)
+                @content ($breakpoint)
+
+@mixin generate-multipliers ()
+    @for $multiplier from 0 through $multiplier_levels
+        @content($multiplier)
+
+@mixin generate-space ($property, $suffix: null, $multiplier: 1)
+    &#{$suffix}
+        #{$property}-inline-start: $space * $multiplier
+        #{$property}-inline-end: $space * $multiplier
+        #{$property}-block-start: $space * $multiplier
+        #{$property}-block-end: $space * $multiplier
+    &x#{$suffix}
+        #{$property}-inline-start: $space * $multiplier
+        #{$property}-inline-end: $space * $multiplier
+    &y#{$suffix}
+        #{$property}-block-start: $space * $multiplier
+        #{$property}-block-end: $space * $multiplier
+    @each $name, $side in $sides
+        &#{$name}#{$suffix}
+            #{$property}-#{$side}: $space * $multiplier
+
+@mixin generate-space-utility ($property)
+    @include generate-space ($property)
+
+    @include generate-multipliers () using ($multiplier)
+        @include generate-space ($property, -#{$multiplier}, $multiplier)
+    
+    @include generate-breakpoints () using ($breakpoint)
+        @include generate-space ($property, -#{$breakpoint})
+
+        @include generate-multipliers () using ($multiplier)
+            @include generate-space ($property, -#{$breakpoint}-#{$multiplier}, $multiplier)
