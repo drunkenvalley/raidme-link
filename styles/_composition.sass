@@ -47,14 +47,14 @@ a, .link
 
     @include generate-variants () using ($variant)
         &.text-#{$variant}
-            --color: var(--#{$variant}-300)
-            --color--hover: var(--#{$variant}-200)
+            --color: var(--#{$variant}-200)
+            --color--hover: var(--#{$variant}-100)
 
 button, .button
     --bg-color: grey
     --bg-color--hover: lightgrey
     --bg-color--active: black
-    --text-color: var(--dark-400)
+    --text-color: var(--dark-600)
     --text-color--hover: var(--text-color)
     --text-color--active: var(--text-color)
 
@@ -64,8 +64,13 @@ button, .button
     color: var(--text-color)
     border-color: var(--bg-color)
     background-color: var(--bg-color)
-    padding: .5em .75em
+    padding: .25em .5em
     box-shadow: 0 0 1em 0 rgba(0,0,0,0.2)
+
+    &.sm
+        padding: .125em .25em
+    &.lg
+        padding: .5em .75em
 
     &:hover, &:focus, &:focus-within
         color: var(--text-color--hover)
@@ -82,7 +87,7 @@ button, .button
             --bg-color: var(--#{$variant}-400)
             --bg-color--hover: var(--#{$variant}-300)
             --bg-color--active: var(--#{$variant}-600)
-            --text-color: var(--dark-400)
+            --text-color: var(--dark-600)
             @if $variant == 'dark'
                 --text-color: var(--light-400)
     
