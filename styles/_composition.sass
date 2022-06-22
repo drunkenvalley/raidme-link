@@ -34,19 +34,16 @@ a, .link
     &:before
         content: ''
         position: absolute
-        top: 100%
-        left: 50%
-        right: 50%
+        left: 0%
+        right: 100%
+        bottom: -.25em
         border-top: .125em solid
-        opacity: 0
         transition: var(--transition)
 
     &:hover, &:focus, &:focus-within
         color: var(--color--hover, currentColor)
         &::before
-            left: 0%
             right: 0%
-            opacity: 1
 
     @include generate-variants () using ($variant)
         &.text-#{$variant}
@@ -198,6 +195,9 @@ figcaption
     display: flex
     flex-flow: row
 
+    &-inline
+        display: inline-flex
+
     @include generate-breakpoints () using ($breakpoint)
         &-#{$breakpoint}
             display: flex
@@ -205,3 +205,6 @@ figcaption
 
             & > *
                 flex-grow: 1
+
+        &-inline-#{$breakpoint}
+            display: inline-flex

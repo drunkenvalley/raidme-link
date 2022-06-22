@@ -1,13 +1,17 @@
 @use './mixins' as *
 
-$fractions: 25, 33, 50, 66, 75, 100
-
 @include generate-heightwidth-utility('.min-vh', 'min-height', 1vh)
 @include generate-heightwidth-utility('.min-vw', 'min-height', 1vw)
 @include generate-heightwidth-utility('.min-h', 'min-height')
 @include generate-heightwidth-utility('.min-w', 'min-height')
 @include generate-heightwidth-utility('.h', 'height')
 @include generate-heightwidth-utility('.w', 'height')
+
+.lineheight
+    line-height: 1.5
+    @include generate-multipliers () using ($multiplier)
+        &-#{$multiplier}
+            line-height: 1.5 * $multiplier
 
 .gap
     &-0
@@ -74,3 +78,6 @@ $fractions: 25, 33, 50, 66, 75, 100
 
     &-double
         --scale: 4em
+
+.group-align-items-center
+        align-items: center
