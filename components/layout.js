@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
 
-export default function Layout({ children, mainClassName = '', title }) {
+export default function Layout({ children, mainClassName = '', title, ...rest }) {
     const basename = 'Raid Me'
     const pagetitle = [basename, title].filter(Boolean).join(' - ')
 
@@ -26,7 +26,7 @@ export default function Layout({ children, mainClassName = '', title }) {
                     </a>
                 </Link>
             </nav>
-            <main className={['px-2', mainClassName].filter(Boolean).join(' ')}>
+            <main className={['px-2 flex-grow', mainClassName].filter(Boolean).join(' ')} {...rest}>
                 {children}
             </main>
         </>

@@ -7,6 +7,10 @@
 @include generate-heightwidth-utility('.h', 'height')
 @include generate-heightwidth-utility('.w', 'height')
 
+.max-w
+    &-400
+        max-width: 400px
+
 .lineheight
     line-height: 1.5
     @include generate-multipliers () using ($multiplier)
@@ -79,5 +83,25 @@
     &-double
         --scale: 4em
 
+.flex
+    display: flex
+    flex-flow: row
+    &[direction="column"]
+        flex-flow: column
+    &-inline
+        @extend .flex
+        display: inline-flex
+    &-grow
+        flex-grow: 1
+    &-shrink
+        flex-shrink: 1
+        &-0
+            flex-shrink: 0
+
+.align-items-center
+    align-items: center
+.justify-content-center
+    justify-content: center
+
 .group-align-items-center
-        align-items: center
+    align-items: center
