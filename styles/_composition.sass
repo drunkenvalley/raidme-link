@@ -1,11 +1,9 @@
 @use 'fonts'
-@use './mixins' as *
+@use 'mixins' as *
 
 :root
     @include color-variants ('purple', #9146FF)
     @include color-variants ('ice', #F0F0FF)
-    @include color-variants ('red', #d8665d)
-    @include color-variants ('light', #ebeade)
     @include color-variants ('dark', #363535)
     --transition: all 250ms
 
@@ -22,14 +20,14 @@ img
 
 a, .link, button, .button
     cursor: pointer
-    color: var(--dark-600)
     font-weight: 600
     text-decoration: none
     transition: var(--transition)
+    outline-offset: .35em
 
-a, .link
+a:not(.button), .link
     position: relative
-    color: var(--color, currentColor)
+    color: var(--color, var(--purple))
 
     &:before
         content: ''
@@ -50,11 +48,11 @@ a, .link
             --color: var(--#{$variant}-200)
             --color--hover: var(--#{$variant}-100)
 
-button, .button
-    --bg-color: grey
-    --bg-color--hover: lightgrey
-    --bg-color--active: black
-    --text-color: var(--dark-600)
+button:not(.link), .button
+    --bg-color: var(--purple-300)
+    --bg-color--hover: var(--purple-200)
+    --bg-color--active: var(--purple-400)
+    --text-color: var(--ice-400)
     --text-color--hover: var(--text-color)
     --text-color--active: var(--text-color)
 
@@ -83,27 +81,32 @@ button, .button
         background-color: var(--bg-color--active)
 
     @include generate-variants () using ($variant)
-        &[variant="#{$variant}"]
-            --bg-color: var(--#{$variant}-400)
-            --bg-color--hover: var(--#{$variant}-300)
-            --bg-color--active: var(--#{$variant}-600)
-            --text-color: var(--dark-600)
+        &.button-#{$variant}
+            --bg-color: var(--#{$variant}-300)
+            --bg-color--hover: var(--#{$variant}-200)
+            --bg-color--active: var(--#{$variant}-400)
+            --text-color: var(--dark-700)
             @if $variant == 'dark'
-                --text-color: var(--light-400)
+                --bg-color: var(--dark-700)
+                --bg-color--hover: var(--dark-600)
+                --bg-color--active: var(--dark-600)
+                --text-color: var(--ice-700)
     
-    &[fill="false"]
+    &.button-outline
         background-color: transparent
 
         &:active
             background-color: var(--bg-color--active)
 
         @include generate-variants () using ($variant)
-            &[variant="#{$variant}"]
+            &.button-#{$variant}
                 --bg-color--active: var(--#{$variant}-200)
                 --text-color: var(--#{$variant}-400)
-                --text-color--active: var(--dark-400)
+                --text-color--hover: var(--dark-200)
+                --text-color--active: var(--dark-200)
                 @if $variant == 'dark'
-                    --text-color--active: var(--light-400)          
+                    --text-color--active: var(--ice-200)          
+                    --text-color--hover: var(--ice-200)
 
 figure
     margin-block-start: .5em

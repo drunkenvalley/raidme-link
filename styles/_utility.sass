@@ -46,6 +46,14 @@
 @include generate-color-utility ('.border', 'border-color')
 @include generate-color-utility ('.text', 'color')
 
+.text
+    &-left
+        text-align: left
+    &-center
+        text-align: center
+    &-right
+        text-align: right
+
 .square
     aspect-ratio: 1
 
@@ -72,6 +80,9 @@
 
 .rounded
     border-radius: 1em
+
+    &-sm
+        border-radius: .25em
 
 .icon
     --scale: 2em
