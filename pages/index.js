@@ -24,7 +24,7 @@ export default function Home({origin}) {
     Object.keys(loginParams).forEach(param => loginUrl.searchParams.set(param, loginParams[param]))
 
     return (
-        <Layout mainClassName='flex justify-content-center align-items-center' direction="column">
+        <Layout mainClassName='flex flex-column justify-content-center align-items-center'>
             <div className='flow max-w-400'>
                 <h1>
                     Welcome to <Link href='/'><a className='text-purple'>Raid Me</a></Link>

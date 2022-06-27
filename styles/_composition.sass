@@ -26,15 +26,17 @@ a, .link, button, .button
     outline-offset: .35em
 
 a:not(.button), .link
+    --color: var(--purple-200)
+    --color--hover: var(--purple-100)
     position: relative
-    color: var(--color, var(--purple))
+    color: var(--color)
 
     &:before
         content: ''
         position: absolute
         left: 0%
         right: 100%
-        bottom: -.25em
+        bottom: -.1em
         border-top: .125em solid
         transition: var(--transition)
 
@@ -173,15 +175,18 @@ figcaption
         max-width: var(--max-width)
         width: 100%
 
+.list
+    list-style: none
+
 .flow
     // Every child element that isn't the first will have style applied with > * + * selector.
     
     // Means that adding "variant='row'" applies margin inline instead,
     // but otherwise normally applies margin block.
-    &:not([variant="row"]) > * + *
+    &:not(&-row) > * + *
         margin-block-start: var(--flow-space, 2rem)
         
-    &[variant="row"] > * + *
+    &-row > * + *
         margin-inline-start: var(--flow-space, 2rem)
 
 .grid

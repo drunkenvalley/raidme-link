@@ -12,10 +12,10 @@
         max-width: 400px
 
 .lineheight
-    line-height: 1.5
+    line-height: 1.25
     @include generate-multipliers () using ($multiplier)
         &-#{$multiplier}
-            line-height: 1.5 * $multiplier
+            line-height: 1.25 * $multiplier
 
 .gap
     &-0
@@ -103,22 +103,32 @@
 .flex
     display: flex
     flex-flow: row
-    &[direction="column"]
+    &-column
         flex-flow: column
     &-inline
         @extend .flex
         display: inline-flex
     &-grow
         flex-grow: 1
+        @include generate-multipliers () using ($multiplier)
+            &-#{$multiplier}
+                flex-grow: $multiplier
+        
     &-shrink
         flex-shrink: 1
-        &-0
-            flex-shrink: 0
+        @include generate-multipliers () using ($multiplier)
+            &-#{$multiplier}
+                flex-shrink: $multiplier
 
-.align-items-center
-    align-items: center
-.justify-content-center
-    justify-content: center
+.align-items
+    @include generate-flex-alignment () using ($alignment)
+        &-#{$alignment}
+            align-items: $alignment
+
+.justify-content
+    @include generate-flex-alignment () using ($alignment)
+        &-#{$alignment}
+            justify-content: $alignment
 
 .group-align-items-center
     align-items: center

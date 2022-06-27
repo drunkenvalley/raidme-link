@@ -20,7 +20,7 @@ export default function Verify() {
     }, [asPath, isReady])
 
     return (
-        <Layout mainClassName='flex justify-content-center align-items-center' direction="column">
+        <Layout mainClassName='flex flex-column justify-content-center align-items-center'>
             <div className='flow max-w-400'>
                 {success && <>
                     <h2>Successfully authorized</h2>

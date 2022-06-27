@@ -9,6 +9,8 @@ $fractions: 25, 33, 50, 66, 75, 100
 $space: .5rem
 $multiplier_levels: 10
 
+$flex-alignments: start, end, center, space-between, space-around, space-evenly, stretch, baseline
+
 @mixin min-width($size)
     $width: map.get($breakpoints, $size)
 
@@ -92,3 +94,7 @@ $multiplier_levels: 10
 
         @include generate-multipliers () using ($multiplier)
             @include generate-space ($property, -#{$breakpoint}-#{$multiplier}, $multiplier)
+
+@mixin generate-flex-alignment ()
+    @each $alignment in $flex-alignments
+        @content ($alignment)
