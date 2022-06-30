@@ -3,12 +3,12 @@ import { initializeApp } from "firebase/app"
 
 // Create .env.local if not exists
 const firebaseConfig = {
-    apiKey: process.env.apiKey,
-    authDomain: process.env.authDomain,
-    projectId: process.env.projectId,
-    storageBucket: process.env.storageBucket,
-    messagingSenderId: process.env.messagingSenderId,
-    appId: process.env.appId
+    apiKey: process.env.firebaseApiKey,
+    authDomain: process.env.firebaseAuthDomain,
+    projectId: process.env.firebaseProjectId,
+    storageBucket: process.env.firebaseStorageBucket,
+    messagingSenderId: process.env.firebaseMessagingSenderId,
+    appId: process.env.firebaseAppId
 }
 
 const app = initializeApp(firebaseConfig)
