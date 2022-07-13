@@ -7,9 +7,18 @@
 @include generate-heightwidth-utility('.h', 'height')
 @include generate-heightwidth-utility('.w', 'height')
 
+.min-w-0
+    min-width: 0
+
 .max-w
     &-400
         max-width: 400px
+
+.truncate
+    width: 100%
+    white-space: nowrap    
+    overflow: hidden
+    text-overflow: ellipsis
 
 .lineheight
     line-height: 1.25
@@ -45,6 +54,19 @@
 @include generate-color-utility ('.bg', 'background-color')
 @include generate-color-utility ('.border', 'border-color')
 @include generate-color-utility ('.text', 'color')
+
+.overflow
+    @each $overflow-type in $overflow-types
+        &-#{$overflow-type}
+            overflow: $overflow-type
+
+.position
+    &-relative
+        position: relative
+
+.aspect
+    &-16-9
+        aspect-ratio: 16/9
 
 .text
     &-left
@@ -83,6 +105,9 @@
 
     &-sm
         border-radius: .25em
+    
+    &-md
+        border-radius: .5em
 
 .icon
     --scale: 2em
@@ -103,6 +128,9 @@
 .flex
     display: flex
     flex-flow: row
+
+    &-wrap
+        flex-wrap: wrap
     &-column
         flex-flow: column
     &-inline

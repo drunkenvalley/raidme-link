@@ -1,7 +1,16 @@
 import '@/styles/index.sass'
 
-function MyApp({ Component, pageProps }) {
-    return <Component {...pageProps} />
-}
+import { SessionProvider } from "next-auth/react"
 
-export default MyApp
+export default function App({
+    Component,
+    pageProps: { session, ...pageProps },
+}) {
+    return (
+    // `session` comes from `getServerSideProps` or `getInitialProps`.
+    // Avoids flickering/session loading on first load.
+        <SessionProvider session={session} refetchInterval={30}>
+            <Component {...pageProps} />
+        </SessionProvider>
+    )
+}

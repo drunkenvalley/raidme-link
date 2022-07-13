@@ -5,12 +5,14 @@
     @include color-variants ('purple', #9146FF)
     @include color-variants ('ice', #F0F0FF)
     @include color-variants ('dark', #363535)
+    @include color-variants ('green', #5CB31E)
     --transition: all 250ms
 
 body
     background-color: var(--dark-700)
     color: var(--ice)
     font-family: Inter, sans-serif
+    line-height: 1.6em
 
 ul
     list-style-type: none
@@ -30,6 +32,7 @@ a:not(.button), .link
     --color--hover: var(--purple-100)
     position: relative
     color: var(--color)
+    background-color: transparent
 
     &:before
         content: ''
@@ -67,9 +70,9 @@ button:not(.link), .button
     padding: .25em .5em
     box-shadow: 0 0 1em 0 rgba(0,0,0,0.2)
 
-    &.sm
+    &.button-sm
         padding: .125em .25em
-    &.lg
+    &.button-lg
         padding: .5em .75em
 
     &:hover, &:focus, &:focus-within
@@ -89,7 +92,7 @@ button:not(.link), .button
             --bg-color--active: var(--#{$variant}-400)
             --text-color: var(--dark-700)
             @if $variant == 'dark'
-                --bg-color: var(--dark-700)
+                --bg-color: var(--dark-600)
                 --bg-color--hover: var(--dark-600)
                 --bg-color--active: var(--dark-600)
                 --text-color: var(--ice-700)
@@ -160,7 +163,7 @@ figcaption
         margin-inline-end: 1ch
 
 .container
-    --max-width: 1024px
+    --max-width: 1440px
 
     width: 100%
     display: flex
@@ -190,19 +193,19 @@ figcaption
         margin-inline-start: var(--flow-space, 2rem)
 
 .grid
-    --columns: 2
+    --columns: 1
     display: grid
     grid-template-columns: [first] repeat(var(--columns), 1fr) [end]
     gap: 2rem
 
     @include min-width(md)
-        --columns: 4
+        --columns: 2
     
-    &-half
-        --columns: 1
+    @include min-width(lg)
+        --columns: 3
 
-        @include min-width(md)
-            --columns: 2
+    @include min-width(xl)
+        --columns: 4
 
 .group
     display: flex
