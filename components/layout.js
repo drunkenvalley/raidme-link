@@ -41,6 +41,11 @@ export default function Layout({ children, mainClassName = '', title, ...rest })
                             </a>
                         </Link>
                     </li>
+                    <li>
+                        <a href="https://github.com/drunkenvalley/raidme-link" className='text-ice'>
+                            Github
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <main className={['container flex-grow', mainClassName].filter(Boolean).join(' ')} {...rest}>
