@@ -1,12 +1,30 @@
 
 import Layout from '@/components/layout'
-import { useSession } from "next-auth/react"
+import { getSession, useSession } from "next-auth/react"
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
+
+export async function getServerSideProps(context) {
+    const session = await getSession(context)
+  
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        }
+    }
+  
+    return {
+        props: {}
+    }
+}
 
 export default function Dashboard() {
     // STATE
     const { data: session, status } = useSession()
+    const [error, setError] = useState(null)
     const [loading, setLoading] = useState(true)
     const [loadingMore, setLoadingMore] = useState(false)
     const [clips, setClips] = useState(null)
@@ -32,7 +50,10 @@ export default function Dashboard() {
                 const old = clips || []
                 setClips([...old, ...res.data])
             })
-            .catch(e => console.error(`Could not fetch clips; ${e}`))
+            .catch(e => {
+                setError('Failed to load clips.')
+                console.error(`Could not fetch clips; ${e}`)
+            })
             .finally(() => {
                 setLoading(false)
                 setLoadingMore(false)
@@ -86,8 +107,14 @@ export default function Dashboard() {
 
     return (
         <Layout mainClassName='flex flex-column justify-content-center align-items-center'>
-            {loading && (
+            {status === 'unauthenticated' && (
+                <>Not logged in</>
+            ) || loading && (
                 <div className="loader m-1" />
+            ) || error && (
+                <>
+                    {error}
+                </>
             ) || (
                 <>
                     <h2 className='mb-3'>
@@ -97,15 +124,14 @@ export default function Dashboard() {
                         <div className='flex-grow'>No clips</div>
                     ) || (
                         <>
-                            <div className='grid mb-3'>
+                            <div className='grid mb-3 flex-grow'>
                                 {createClips(clips)}
                             </div>
-                            {loadingMore && (
-                                <div className="loader m-1" />
-                            ) || next && (
+                            {next && (
                                 <div className='flex flex-row justify-content-center'>
                                     <button onClick={() => requestClips()} className="button-dark button-lg">
                                     Load more
+                                        {loadingMore && <div className="ms-1 loader loader-inline" />}
                                     </button>
                                 </div>
                             )}
