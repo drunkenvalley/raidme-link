@@ -93,9 +93,11 @@ export default function Dashboard() {
                         <Image alt={clip.title} src={clip.thumbnail_url} layout="fill" />
                     </aside>
                     <article className='flex flex-row p-2'>
-                        <h3 className='flex-grow-1 min-w-0'>
-                            <div className='truncate'>{clip.title}</div>
+                        <a href={clip.url} className='flex-grow-1 min-w-0'>
+                            <h3 className='truncate'>
+                                {clip.title}
                         </h3>
+                        </a>
                         <button className='fav-button'><Star filled={false} /></button>
                     </article>
                 </section>
