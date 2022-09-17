@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import Layout from '@/components/layout'
+import Layout from '@/components/Layout'
 import { signIn, signOut, useSession } from "next-auth/react"
 
 export default function Home() {
     const { data: session, status } = useSession()
 
     return (
-        <Layout mainClassName='flex flex-column justify-content-center align-items-center'>
+        <Layout className='flex flex-column justify-content-center align-items-center'>
             <div className='flow max-w-400'>
                 <h1>
                     Welcome to <Link href='/'><a className='text-purple'>Raid Me</a></Link>
@@ -22,7 +22,7 @@ export default function Home() {
                         <section className='rounded-sm flex flow-row align-items-center bg-dark-600 overflow-hidden'>
                             <Image src={session.user.image} alt={session.user.name} height={100} width={100} />
                             <article>
-                                <h2>{session.user.name}</h2>
+                                <h2 className='mb-1'>{session.user.name}</h2>
                                 <button onClick={() => signOut()} className='link flex-inline align-items-center'>
                                     <svg xmlns="http://www.w3.org/2000/svg" height="16" fill="currentColor" className="bi bi-twitch me-1" viewBox="0 0 16 16">
                                         <path d="M3.857 0 1 2.857v10.286h3.429V16l2.857-2.857H9.57L14.714 8V0H3.857zm9.714 7.429-2.285 2.285H9l-2 2v-2H4.429V1.143h9.142v6.286z"/>

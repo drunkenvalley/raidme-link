@@ -1,6 +1,7 @@
 @use 'sass:map'
 @use 'sass:color'
 @use 'sass:selector'
+@use 'variables' as *
 
 $breakpoints: ("xs": 0px, "sm": 576px, "md": 768px, "lg": 992px, "xl": 1200px, "xxl": 1400px)
 $variants: "purple", "dark", "ice", "green"
@@ -99,3 +100,34 @@ $overflow-types: visible, hidden, scroll, auto
 @mixin generate-flex-alignment ()
     @each $alignment in $flex-alignments
         @content ($alignment)
+
+@mixin orphan-node
+    &:last-of-type:not(:nth-of-type(even))
+        @content
+
+@mixin make-swatches
+    @each $color, $hex in $colors
+        &-#{$color}
+            @content($hex)
+
+@mixin make-breakpoints
+    &
+        @content
+
+    @each $breakpoint, $min in $breakpoints
+        @media only screen and (min-width: $min) 
+            &-#{$breakpoint}
+                @content
+
+@mixin make-increments
+    @each $increment, $size in $increments
+        &-#{$increment}
+            @content($size)
+
+@mixin make-directions
+    &
+        @content(false)
+
+    @each $direction, $modifier in $directions
+        &#{$direction}
+            @content($modifier)

@@ -1,4 +1,4 @@
-import Layout from "@/components/layout"
+import Layout from "@/components/Layout"
 
 export default function Privacy() {
     const TwitchTV = () => (
@@ -13,7 +13,7 @@ export default function Privacy() {
     )
 
     return (
-        <Layout mainClassName='flex flex-column justify-content-center align-items-center'>
+        <Layout className='flex flex-column justify-content-center align-items-center'>
             <ol className="flow">
                 <legend>
                     <h2>

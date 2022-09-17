@@ -27,33 +27,52 @@ a, .link, button, .button
     transition: var(--transition)
     outline-offset: .35em
 
-a:not(.button), .link
-    --color: var(--purple-200)
-    --color--hover: var(--purple-100)
+.link
+    --text-color: var(--purple-200)
+    --text-color--hover: var(--purple-100)
+    --text-color--active: var(--purple-100)
     position: relative
-    color: var(--color)
-    background-color: transparent
+    color: var(--text-color)
 
     &:before
         content: ''
         position: absolute
         left: 0%
         right: 100%
-        bottom: -.1em
+        bottom: -.0625em
         border-top: .125em solid
         transition: var(--transition)
 
-    &:hover, &:focus, &:focus-within
-        color: var(--color--hover, currentColor)
+    &:hover, &:focus
+        color: var(--text-color--hover, currentColor)
         &::before
             right: 0%
 
+    &:active
+        color: var(--text-color--active)
+    
+    &-flush::before
+        bottom: 0
+    
+    &-inside
+        &::before
+            border-top-width: .25em
+            border-radius: .125em
+            bottom: .25em
+            left: .25em
+        &:hover, &:focus
+            &::before
+                right: .25em
+
     @include generate-variants () using ($variant)
         &.text-#{$variant}
-            --color: var(--#{$variant}-200)
-            --color--hover: var(--#{$variant}-100)
+            --text-color: var(--#{$variant}-200)
+            --text-color--hover: var(--#{$variant}-100)
 
-button:not(.link), .button
+a
+    @extend .link
+
+.button
     --bg-color: var(--purple-300)
     --bg-color--hover: var(--purple-200)
     --bg-color--active: var(--purple-400)
@@ -70,10 +89,18 @@ button:not(.link), .button
     padding: .25em .5em
     box-shadow: 0 0 1em 0 rgba(0,0,0,0.2)
 
-    &.button-sm
+    &-sm
         padding: .125em .25em
-    &.button-lg
+    &-lg
         padding: .5em .75em
+
+    &.link
+        --bg-color: transparent
+        --bg-color--hover: transparent
+        --bg-color--active: transparent
+        border: 0
+        border-radius: 0
+        box-shadow: none
 
     &:hover, &:focus, &:focus-within
         color: var(--text-color--hover)
@@ -93,8 +120,8 @@ button:not(.link), .button
             --text-color: var(--dark-700)
             @if $variant == 'dark'
                 --bg-color: var(--dark-600)
-                --bg-color--hover: var(--dark-600)
-                --bg-color--active: var(--dark-600)
+                --bg-color--hover: var(--dark-500)
+                --bg-color--active: var(--dark-500)
                 --text-color: var(--ice-700)
     
     &.button-outline
@@ -112,6 +139,9 @@ button:not(.link), .button
                 @if $variant == 'dark'
                     --text-color--active: var(--ice-200)          
                     --text-color--hover: var(--ice-200)
+
+button
+    @extend .button
 
 figure
     margin-block-start: .5em

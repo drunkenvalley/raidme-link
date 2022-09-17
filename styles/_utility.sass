@@ -31,10 +31,22 @@
         gap: 0
 
 .p
-    @include generate-space-utility ('padding')
+    @include make-directions using ($modifier)    
+        @include make-breakpoints
+            @include make-increments using ($size)
+                @if ($modifier)
+                    padding-#{$modifier}: $size
+                @else
+                    padding: $size
 
 .m
-    @include generate-space-utility ('margin')
+    @include make-directions using ($modifier)
+        @include make-breakpoints
+            @include make-increments using ($size)
+                @if ($modifier)
+                    margin-#{$modifier}: $size
+                @else
+                    margin: $size
 
 .border
     border-width: 1px

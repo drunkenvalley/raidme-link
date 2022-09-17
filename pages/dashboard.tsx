@@ -1,5 +1,5 @@
 
-import Layout from '@/components/layout'
+import Layout from '@/components/Layout'
 import { getSession, useSession } from "next-auth/react"
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
@@ -32,7 +32,7 @@ export default function Dashboard() {
 
     // REACT
     const requestClips = useCallback(() => {
-        const url = new URL(`https://api.twitch.tv/helix/clips?broadcaster_id=${session.twitchId}`)
+        const url = new URL(`https://api.twitch.tv/helix/clips?broadcaster_id=190631385`)
         if (next) {
             setLoadingMore(true)
             url.searchParams.set('after', next)
@@ -87,28 +87,24 @@ export default function Dashboard() {
         }
 
         const output = clips.map(clip => (
-            <div key={clip.id} className='overflow-hidden flex flex-column'>
-                <section className='rounded-sm bg-dark-600 overflow-hidden position-relative'>
-                    <aside className='position-relative aspect-16-9'>
-                        <Image alt={clip.title} src={clip.thumbnail_url} layout="fill" />
-                    </aside>
-                    <article className='flex flex-row p-2'>
-                        <a href={clip.url} className='flex-grow-1 min-w-0'>
-                            <h3 className='truncate'>
-                                {clip.title}
-                        </h3>
-                        </a>
-                        <button className='fav-button'><Star filled={false} /></button>
-                    </article>
-                </section>
-            </div>
+            <a href={clip.url} key={clip.id} className='flex flex-column min-w-0 overflow-hidden rounded-sm bg-dark-600 link-inside'>
+                <Image alt={clip.title} src={clip.thumbnail_url} width={480} height={276} />
+                <article className='flex flex-row align-items-center p-2'>
+                    <h3 href={clip.url} className='flex-grow-1 min-w-0'>
+                        <div className='truncate' title={clip.title}>
+                            {clip.title}
+                        </div>
+                    </h3>
+                    <button className='fav-button'><Star filled={false} /></button>
+                </article>
+            </a>
         ))
 
         return output
     }
 
     return (
-        <Layout mainClassName='flex flex-column justify-content-center align-items-center'>
+        <Layout className='flex flex-column justify-content-center align-items-center'>
             {status === 'unauthenticated' && (
                 <>Not logged in</>
             ) || loading && (
@@ -132,7 +128,7 @@ export default function Dashboard() {
                             {next && (
                                 <div className='flex flex-row justify-content-center'>
                                     <button onClick={() => requestClips()} className="button-dark button-lg">
-                                    Load more
+                                        Load more
                                         {loadingMore && <div className="ms-1 loader loader-inline" />}
                                     </button>
                                 </div>

@@ -1,9 +1,16 @@
 import Head from 'next/head'
 import Link from 'next/link'
 
-export default function Layout({ children, mainClassName = '', title, ...rest }) {
+interface Props {
+    children: JSX.Element|string
+    className: string
+    title: string
+}
+
+export default function Layout({ children, className, title, ...rest }: Partial<Props>) {
     const brandname = 'Raid Me'
     const pagetitle = [brandname, title].filter(Boolean).join(' - ')
+    className = ['container flex-grow', className].filter(Boolean).join(' ')
 
     return (
         <>
@@ -48,7 +55,7 @@ export default function Layout({ children, mainClassName = '', title, ...rest })
                     </li>
                 </ul>
             </nav>
-            <main className={['container flex-grow', mainClassName].filter(Boolean).join(' ')} {...rest}>
+            <main className={className} {...rest}>
                 {children}
             </main>
         </>

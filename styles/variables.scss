@@ -1,0 +1,56 @@
+$black: #000;
+$white: #fff;
+$blue: #444D55;
+$light-blue: #768692;
+$aluminium: #8C8C8C;
+$green: #43807A;
+$warm: #C5B9AC;
+$purple: #4A3041;
+$bauxite: #B95946;
+$mid-gray: #757575;
+$light-gray: #F4F4F4;
+
+$colors: (
+    black: $black,
+    white: $white,
+    blue: $blue,
+    light-blue: $light-blue,
+    aluminium: $aluminium,
+    green: $green,
+    warm: $warm,
+    purple: $purple,
+    bauxite: $bauxite,
+    mid-gray: $mid-gray,
+    light-gray: $light-gray
+);
+
+$breakpoints: (
+    "sm": 576px,
+    "md": 768px,
+    "lg": 992px,
+    "xl": 1200px,
+    "xxl": 1400px
+);
+
+$increments: (
+    n5: -4rem,
+    n4: -3rem,
+    n3: -2rem,
+    n2: -1rem,
+    n1: -.5rem,
+    0: 0,
+    1: .5rem,
+    2: 1rem,
+    3: 2rem,
+    4: 3rem,
+    5: 4rem
+);
+
+$directions: (
+    "x": inline,
+    "y": block,
+    "s": inline-start,
+    "t": block-start,
+    "e": inline-end,
+    "b": block-end
+)
