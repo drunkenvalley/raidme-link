@@ -40,8 +40,8 @@ export default function Dashboard() {
         fetch(url, {
             method: 'GET',
             headers: new Headers({
-                "Authorization": "Bearer " + session.accessToken,
-                "Client-Id": session.twitchClientId
+                "Authorization": String("Bearer " + session.accessToken),
+                "Client-Id": String(session.twitchClientId)
             })
         })
             .then(res => res.json())
@@ -87,10 +87,10 @@ export default function Dashboard() {
         }
 
         const output = clips.map(clip => (
-            <a href={clip.url} key={clip.id} className='flex flex-column min-w-0 overflow-hidden rounded-sm bg-dark-600 link-inside'>
+            <a href={clip.url} key={clip.id} className='flex flex-column min-w-0 overflow-hidden rounded-1 bg-dark-600 link-inside'>
                 <Image alt={clip.title} src={clip.thumbnail_url} width={480} height={276} />
                 <article className='flex flex-row align-items-center p-2'>
-                    <h3 href={clip.url} className='flex-grow-1 min-w-0'>
+                    <h3 className='flex-grow-1 min-w-0'>
                         <div className='truncate' title={clip.title}>
                             {clip.title}
                         </div>

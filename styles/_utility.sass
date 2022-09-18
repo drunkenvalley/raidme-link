@@ -1,125 +1,80 @@
-@use './mixins' as *
+@use 'variables' as *
+@use 'mixins' as *
 
-@include generate-heightwidth-utility('.min-vh', 'min-height', 1vh)
-@include generate-heightwidth-utility('.min-vw', 'min-height', 1vw)
-@include generate-heightwidth-utility('.min-h', 'min-height')
-@include generate-heightwidth-utility('.min-w', 'min-height')
-@include generate-heightwidth-utility('.h', 'height')
-@include generate-heightwidth-utility('.w', 'height')
-
-.min-w-0
-    min-width: 0
-
-.max-w
-    &-400
-        max-width: 400px
-
-.truncate
-    width: 100%
-    white-space: nowrap    
-    overflow: hidden
-    text-overflow: ellipsis
-
-.lineheight
-    line-height: 1.25
-    @include generate-multipliers () using ($multiplier)
-        &-#{$multiplier}
-            line-height: 1.25 * $multiplier
-
-.gap
-    &-0
-        gap: 0
-
-.p
-    @include make-directions using ($modifier)    
-        @include make-breakpoints
-            @include make-increments using ($size)
-                @if ($modifier)
-                    padding-#{$modifier}: $size
-                @else
-                    padding: $size
-
-.m
-    @include make-directions using ($modifier)
-        @include make-breakpoints
-            @include make-increments using ($size)
-                @if ($modifier)
-                    margin-#{$modifier}: $size
-                @else
-                    margin: $size
-
-.border
-    border-width: 1px
-
-    &-ms
-        border-inline-start-width: 1px
-    
-    &-me
-        border-inline-end-width: 1px
-
-    &-mt
-        border-block-start-width: 1px
-
-    &-mb
-        border-block-end-width: 1px
-
-@include generate-color-utility ('.bg', 'background-color')
-@include generate-color-utility ('.border', 'border-color')
-@include generate-color-utility ('.text', 'color')
-
-.overflow
-    @each $overflow-type in $overflow-types
-        &-#{$overflow-type}
-            overflow: $overflow-type
-
-.position
-    &-relative
-        position: relative
+.align-items
+    @include flex-alignments using ($alignment)
+        align-items: $alignment
 
 .aspect
     &-16-9
         aspect-ratio: 16/9
-
-.text
-    &-left
-        text-align: left
-    &-center
-        text-align: center
-    &-right
-        text-align: right
-
-.square
-    aspect-ratio: 1
-
-    @include generate-breakpoints () using ($breakpoint)
-        &-#{$breakpoint}
+    
+    &-square
+        @include breakpoints ()
             aspect-ratio: 1
 
-.widescreen
-    aspect-ratio: 16/9
-
-    @include generate-breakpoints () using ($breakpoint)
-        &-#{$breakpoint}
+    &-widescreen
+        @include breakpoints ()
             aspect-ratio: 16/9
 
-.ultrawide
-    aspect-ratio: 21/9
-
-    @include generate-breakpoints () using ($breakpoint)
-        &-#{$breakpoint}
+    &-ultrawide
+        @include breakpoints ()
             aspect-ratio: 21/9
 
-.contain
-    object-fit: contain
+.bg
+    @include swatches using ($color, $hex)
+        &-#{$color}
+            background-color: var(--#{$color})
 
-.rounded
-    border-radius: 1em
+.block
+    display: block
 
-    &-sm
-        border-radius: .25em
-    
-    &-md
-        border-radius: .5em
+    &-inline
+        display: inline-block
+
+.border
+    @include options ($list: (dotted, dashed, solid, double, groove, ridge, inset, outset, hidden)) using ($style)
+        border-style: $style    
+
+    @include directions using ($direction)
+        border#{$direction}-width: 1px
+
+    @include swatches using ($color, $hex)
+        &-#{$color}
+            border-color: var(--#{$color})
+
+.flex
+    display: flex
+    flex-flow: row
+
+    &-wrap
+        flex-wrap: wrap
+
+    &-column
+        flex-flow: column
+
+    &-inline
+        @extend .flex
+        display: inline-flex
+
+    &-grow
+        flex-grow: 1
+        @include multipliers using ($multiplier)
+            flex-grow: $multiplier
+        
+    &-shrink
+        flex-shrink: 1
+        @include multipliers using ($multiplier)
+            flex-shrink: $multiplier
+
+.gap
+    gap: .5rem
+    @include increments using ($increment)
+        gap: $increment
+
+.h
+    @include fractions using ($fraction)
+        height: $fraction * 1%
 
 .icon
     --scale: 2em
@@ -131,44 +86,73 @@
     &-double
         --scale: 4em
 
-.block
-    display: block
-
-    &-inline
-        display: inline-block
-
-.flex
-    display: flex
-    flex-flow: row
-
-    &-wrap
-        flex-wrap: wrap
-    &-column
-        flex-flow: column
-    &-inline
-        @extend .flex
-        display: inline-flex
-    &-grow
-        flex-grow: 1
-        @include generate-multipliers () using ($multiplier)
-            &-#{$multiplier}
-                flex-grow: $multiplier
-        
-    &-shrink
-        flex-shrink: 1
-        @include generate-multipliers () using ($multiplier)
-            &-#{$multiplier}
-                flex-shrink: $multiplier
-
-.align-items
-    @include generate-flex-alignment () using ($alignment)
-        &-#{$alignment}
-            align-items: $alignment
-
 .justify-content
-    @include generate-flex-alignment () using ($alignment)
-        &-#{$alignment}
-            justify-content: $alignment
+    @include flex-alignments using ($alignment)
+        justify-content: $alignment
 
-.group-align-items-center
-    align-items: center
+.lineheight
+    line-height: 1.25
+    @include increments using ($multiplier)
+        line-height: 1.25 * $multiplier
+
+.m
+    @include directions using ($direction)
+        @include breakpoints
+            @include increments using ($size)
+                margin#{$direction}: $size
+
+.max-w
+    &-400
+        max-width: 400px
+
+.min-h
+    @include fractions using ($fraction)
+        min-height: $fraction * 1%
+
+.min-vh
+    @include fractions using ($fraction)
+        min-height: $fraction * 1vh
+
+.min-vw
+    @include fractions using ($fraction)
+        min-width: $fraction * 1vw
+
+.min-w
+    @include fractions using ($fraction)
+        min-width: $fraction * 1%
+
+.overflow
+    @include options ($list: (visible, hidden, scroll, auto)) using ($overflow-type)
+        overflow: $overflow-type
+
+.p
+    @include directions using ($direction)    
+        @include breakpoints
+            @include increments using ($size)
+                padding#{$direction}: $size
+
+.position
+    @include options ($list: (static, relative, fixed, absolute, sticky)) using ($position)
+        position: $position
+
+.rounded
+    @include increments using ($increment)
+        border-radius: $increment * .5
+
+.text
+    @include swatches using ($color, $hex)
+        &-#{$color}
+            color: var(--#{$color})
+
+    @include options ($list: (left, center, right)) using ($text-direction)
+        text-align: $text-direction
+
+.truncate
+    width: 100%
+    white-space: nowrap    
+    overflow: hidden
+    text-overflow: ellipsis
+
+.w
+    @include fractions using ($fraction)
+        width: $fraction * 1%

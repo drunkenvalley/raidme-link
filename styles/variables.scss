@@ -1,27 +1,13 @@
-$black: #000;
-$white: #fff;
-$blue: #444D55;
-$light-blue: #768692;
-$aluminium: #8C8C8C;
-$green: #43807A;
-$warm: #C5B9AC;
-$purple: #4A3041;
-$bauxite: #B95946;
-$mid-gray: #757575;
-$light-gray: #F4F4F4;
+$dark: #363535;
+$green: #5CB31E;
+$ice: #F0F0FF;
+$purple: #9146FF;
 
 $colors: (
-    black: $black,
-    white: $white,
-    blue: $blue,
-    light-blue: $light-blue,
-    aluminium: $aluminium,
+    dark: $dark,
     green: $green,
-    warm: $warm,
-    purple: $purple,
-    bauxite: $bauxite,
-    mid-gray: $mid-gray,
-    light-gray: $light-gray
+    ice: $ice,
+    purple: $purple
 );
 
 $breakpoints: (
@@ -31,6 +17,10 @@ $breakpoints: (
     "xl": 1200px,
     "xxl": 1400px
 );
+
+$fractions: 25, 33, 50, 66, 75, 100;
+
+$multiplier_levels: 10;
 
 $increments: (
     n5: -4rem,
@@ -53,4 +43,6 @@ $directions: (
     "t": block-start,
     "e": inline-end,
     "b": block-end
-)
+);
+
+$flex-flex-alignments: start, end, center, space-between, space-around, space-evenly, stretch, baseline;

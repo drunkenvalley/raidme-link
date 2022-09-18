@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "emulate-firebase": "npx firebase emulators:start"
   },
   "dependencies": {
     "@next-auth/firebase-adapter": "^1.0.1",

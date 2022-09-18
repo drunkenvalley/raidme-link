@@ -2,10 +2,8 @@
 @use 'mixins' as *
 
 :root
-    @include color-variants ('purple', #9146FF)
-    @include color-variants ('ice', #F0F0FF)
-    @include color-variants ('dark', #363535)
-    @include color-variants ('green', #5CB31E)
+    @include swatches using ($color, $hex)
+        --#{$color}: #{$hex}
     --transition: all 250ms
 
 body
@@ -43,12 +41,12 @@ a, .link, button, .button
         border-top: .125em solid
         transition: var(--transition)
 
-    &:hover, &:focus
+    @include hover
         color: var(--text-color--hover, currentColor)
         &::before
             right: 0%
 
-    &:active
+    @include active
         color: var(--text-color--active)
     
     &-flush::before
@@ -60,14 +58,14 @@ a, .link, button, .button
             border-radius: .125em
             bottom: .25em
             left: .25em
-        &:hover, &:focus
+        @include hover
             &::before
                 right: .25em
 
-    @include generate-variants () using ($variant)
-        &.text-#{$variant}
-            --text-color: var(--#{$variant}-200)
-            --text-color--hover: var(--#{$variant}-100)
+    @include colors using ($color)
+        &.text-#{$color}
+            --text-color: var(--#{$color}-200)
+            --text-color--hover: var(--#{$color}-100)
 
 a
     @extend .link
@@ -95,30 +93,31 @@ a
         padding: .5em .75em
 
     &.link
+        &::before
+            content: none
+        
         --bg-color: transparent
         --bg-color--hover: transparent
         --bg-color--active: transparent
-        border: 0
-        border-radius: 0
         box-shadow: none
 
-    &:hover, &:focus, &:focus-within
+    @include hover
         color: var(--text-color--hover)
         border-color: var(--bg-color--hover)
         background-color: var(--bg-color--hover)
     
-    &:active
+    @include active
         color: var(--text-color--active)
         border-color: var(--bg-color--active)
         background-color: var(--bg-color--active)
 
-    @include generate-variants () using ($variant)
-        &.button-#{$variant}
-            --bg-color: var(--#{$variant}-300)
-            --bg-color--hover: var(--#{$variant}-200)
-            --bg-color--active: var(--#{$variant}-400)
+    @include colors using ($color)
+        &.button-#{$color}
+            --bg-color: var(--#{$color}-300)
+            --bg-color--hover: var(--#{$color}-200)
+            --bg-color--active: var(--#{$color}-400)
             --text-color: var(--dark-700)
-            @if $variant == 'dark'
+            @if $color == 'dark'
                 --bg-color: var(--dark-600)
                 --bg-color--hover: var(--dark-500)
                 --bg-color--active: var(--dark-500)
@@ -127,18 +126,19 @@ a
     &.button-outline
         background-color: transparent
 
-        &:active
+        @include active
             background-color: var(--bg-color--active)
 
-        @include generate-variants () using ($variant)
-            &.button-#{$variant}
-                --bg-color--active: var(--#{$variant}-200)
-                --text-color: var(--#{$variant}-400)
-                --text-color--hover: var(--dark-200)
-                --text-color--active: var(--dark-200)
-                @if $variant == 'dark'
-                    --text-color--active: var(--ice-200)          
-                    --text-color--hover: var(--ice-200)
+        @include colors using ($color)
+            &.button-#{$color}
+                --bg-color--active: var(--#{$color}-200)
+                --text-color: var(--#{$color}-400)
+                --text-color--hover: var(--#{$color}-200)
+                --text-color--active: var(--#{$color}-200)
+                @if $color == 'dark'
+                    --text-color: var(--ice-700)
+                    --text-color--active: var(--ice-500)          
+                    --text-color--hover: var(--ice-500)
 
 button
     @extend .button
@@ -179,9 +179,9 @@ blockquote, .quote
         line-height: .25em
         margin-inline-start: 1ch
 
-    @include generate-variants () using ($variant)
-        &[marker="#{$variant}"]
-            --marker-color: var(--#{$variant}-300)
+    @include colors using ($color)
+        &[marker="#{$color}"]
+            --marker-color: var(--#{$color}-300)
 
 figcaption
     margin-inline-start: 4ch
@@ -244,13 +244,13 @@ figcaption
     &-inline
         display: inline-flex
 
-    @include generate-breakpoints () using ($breakpoint)
-        &-#{$breakpoint}
-            display: flex
-            flex-flow: row
+    @include breakpoints
+        display: flex
+        flex-flow: row
 
-            & > *
-                flex-grow: 1
+        & > *
+            flex-grow: 1
 
-        &-inline-#{$breakpoint}
+    &-inline
+        @include breakpoints
             display: inline-flex
