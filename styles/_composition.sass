@@ -1,4 +1,6 @@
+@use 'sass:map'
 @use 'fonts'
+@use 'variables' as *
 @use 'mixins' as *
 
 :root
@@ -7,10 +9,26 @@
     --transition: all 250ms
 
 body
-    background-color: var(--dark-700)
+    background-color: var(--dark-400)
     color: var(--ice)
     font-family: Inter, sans-serif
     line-height: 1.6em
+
+h1, h2, h3, h4, h5, h6
+    color: var(--gold)
+    margin-block-end: map.get($increments, 1)
+
+p
+    margin-block-end: map.get($increments, 3)
+
+    &:last-child
+        margin-block-end: 0
+
+ul, ol
+    padding: 0
+
+    & &
+        padding-inline-start: 2ch
 
 ul
     list-style-type: none
@@ -20,7 +38,6 @@ img
 
 a, .link, button, .button
     cursor: pointer
-    font-weight: 600
     text-decoration: none
     transition: var(--transition)
     outline-offset: .35em
@@ -28,17 +45,18 @@ a, .link, button, .button
 .link
     --text-color: var(--purple-200)
     --text-color--hover: var(--purple-100)
-    --text-color--active: var(--purple-100)
+    --text-color--active: var(--purple-400)
     position: relative
     color: var(--text-color)
 
     &:before
+        $border-width: .125em
         content: ''
         position: absolute
         left: 0%
         right: 100%
-        bottom: -.0625em
-        border-top: .125em solid
+        bottom: $border-width * 0.75 * -1
+        border-top: $border-width solid
         transition: var(--transition)
 
     @include hover
@@ -63,12 +81,16 @@ a, .link, button, .button
                 right: .25em
 
     @include colors using ($color)
-        &.text-#{$color}
-            --text-color: var(--#{$color}-200)
+        &.text--#{$color}
+            --text-color: var(--#{$color}-300)
             --text-color--hover: var(--#{$color}-100)
+            --text-color--active: var(--#{$color}-400)
 
 a
     @extend .link
+
+a.button::before
+    content: none
 
 .button
     --bg-color: var(--purple-300)
@@ -78,24 +100,27 @@ a
     --text-color--hover: var(--text-color)
     --text-color--active: var(--text-color)
 
-    display: inline-block
-    border: .01em solid
-    border-radius: .25em
-    color: var(--text-color)
-    border-color: var(--bg-color)
     background-color: var(--bg-color)
-    padding: .25em .5em
+    border-width: 1px
+    border-style: solid
+    border-color: var(--bg-color)
+    border-radius: map.get($increments, 1) * .5
     box-shadow: 0 0 1em 0 rgba(0,0,0,0.2)
+    color: var(--text-color)
+    display: inline-block
+    font-weight: 400
+    padding: map.get($increments, 1) map.get($increments, 2)
+
+    &[disabled]
+        opacity: .5
+        cursor: not-allowed
 
     &-sm
-        padding: .125em .25em
+        padding: map.get($increments, 1)*.5 map.get($increments, 2)*.5
     &-lg
-        padding: .5em .75em
+        padding: map.get($increments, 2) map.get($increments, 3)
 
     &.link
-        &::before
-            content: none
-        
         --bg-color: transparent
         --bg-color--hover: transparent
         --bg-color--active: transparent
@@ -103,7 +128,6 @@ a
 
     @include hover
         color: var(--text-color--hover)
-        border-color: var(--bg-color--hover)
         background-color: var(--bg-color--hover)
     
     @include active
@@ -112,9 +136,9 @@ a
         background-color: var(--bg-color--active)
 
     @include colors using ($color)
-        &.button-#{$color}
-            --bg-color: var(--#{$color}-300)
-            --bg-color--hover: var(--#{$color}-200)
+        &.button--#{$color}
+            --bg-color: var(--#{$color}-400)
+            --bg-color--hover: var(--#{$color}-100)
             --bg-color--active: var(--#{$color}-400)
             --text-color: var(--dark-700)
             @if $color == 'dark'
@@ -124,21 +148,27 @@ a
                 --text-color: var(--ice-700)
     
     &.button-outline
-        background-color: transparent
+        --shadow: transparent
+        --bg-color: currentColor
+        --bg-color--hover: currentColor
+        --bg-color--active: currentColor
 
-        @include active
-            background-color: var(--bg-color--active)
+        background-color: transparent
+        box-shadow: 0 0 1em 0 var(--shadow)
+        transition: var(--transition)
+
+        @include hover
+            --shadow: rgba(0,0,0,0.5)
 
         @include colors using ($color)
-            &.button-#{$color}
-                --bg-color--active: var(--#{$color}-200)
+            &.button--#{$color}
                 --text-color: var(--#{$color}-400)
                 --text-color--hover: var(--#{$color}-200)
-                --text-color--active: var(--#{$color}-200)
+                --text-color--active: var(--#{$color}-900)
                 @if $color == 'dark'
-                    --text-color: var(--ice-700)
-                    --text-color--active: var(--ice-500)          
-                    --text-color--hover: var(--ice-500)
+                    --text-color: var(--dark-200)
+                    --text-color--hover: var(--dark-100)
+                    --text-color--active: var(--dark-900)
 
 button
     @extend .button
@@ -211,16 +241,23 @@ figcaption
 .list
     list-style: none
 
+%flow
+    display: flex
+    flex-flow: row wrap
+
 .flow
-    // Every child element that isn't the first will have style applied with > * + * selector.
-    
-    // Means that adding "variant='row'" applies margin inline instead,
-    // but otherwise normally applies margin block.
-    &:not(&-row) > * + *
-        margin-block-start: var(--flow-space, 2rem)
+    $space: map.get($increments, 3)
+    @extend %flow
+    gap: $space
+
+    &-col
+        @extend %flow
+        flex-flow: column
+        row-gap: $space
         
-    &-row > * + *
-        margin-inline-start: var(--flow-space, 2rem)
+    &-row
+        @extend %flow
+        column-gap: $space
 
 .grid
     --columns: 1

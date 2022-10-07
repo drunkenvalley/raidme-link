@@ -23,8 +23,12 @@
 
 .bg
     @include swatches using ($color, $hex)
-        &-#{$color}
+        &--#{$color}
             background-color: var(--#{$color})
+
+.display
+    @include options ($list: (inline, block, contents, flex, grid, inline-block, inline-flex, inline-grid, inline-table, list-item, run-in, table, table-caption, table-column-group, table-header-group, table-footer-group, table-row-group, table-cell, table-column, table-row, none, initial, inherit)) using ($display)
+        display: $display
 
 .block
     display: block
@@ -36,11 +40,11 @@
     @include options ($list: (dotted, dashed, solid, double, groove, ridge, inset, outset, hidden)) using ($style)
         border-style: $style    
 
-    @include directions using ($direction)
+    @include directions ('-') using ($direction)
         border#{$direction}-width: 1px
 
     @include swatches using ($color, $hex)
-        &-#{$color}
+        &--#{$color}
             border-color: var(--#{$color})
 
 .flex
@@ -105,21 +109,23 @@
     &-400
         max-width: 400px
 
-.min-h
-    @include fractions using ($fraction)
-        min-height: $fraction * 1%
+.min
+    @include breakpoints    
+        &-h
+            @include fractions using ($fraction)
+                min-height: $fraction * 1%
 
-.min-vh
-    @include fractions using ($fraction)
-        min-height: $fraction * 1vh
+        &-vh
+            @include fractions using ($fraction)
+                min-height: $fraction * 1vh
 
-.min-vw
-    @include fractions using ($fraction)
-        min-width: $fraction * 1vw
+        &-vw
+            @include fractions using ($fraction)
+                min-width: $fraction * 1vw
 
-.min-w
-    @include fractions using ($fraction)
-        min-width: $fraction * 1%
+        &-w
+            @include fractions using ($fraction)
+                min-width: $fraction * 1%
 
 .overflow
     @include options ($list: (visible, hidden, scroll, auto)) using ($overflow-type)
@@ -136,12 +142,14 @@
         position: $position
 
 .rounded
-    @include increments using ($increment)
-        border-radius: $increment * .5
+    @include breakpoints
+        @include increments using ($increment)
+            border-radius: $increment * .5
+            overflow: hidden
 
 .text
     @include swatches using ($color, $hex)
-        &-#{$color}
+        &--#{$color}
             color: var(--#{$color})
 
     @include options ($list: (left, center, right)) using ($text-direction)

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 
 export default async function GetDb(req, res) {
     const [method] = req.query.method
-    /* 
+    /*
     if (['put', 'get'].includes(method)) {
         const { twitchId } = await unstable_getServerSession(req, res, authOptions)
 
@@ -22,7 +22,7 @@ export default async function GetDb(req, res) {
                 res.status(401).json({ error: "Conflicting data." })
                 return
             }
-            
+
             res.status(200).json(current)
             return
         }

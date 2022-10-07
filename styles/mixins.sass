@@ -20,12 +20,12 @@
     @each $color, $hex in $colors
         @content ($color)
 
-@mixin directions
+@mixin directions ($prefix: '')
     &
         @content('')
 
     @each $modifier, $direction in $directions
-        &#{$modifier}
+        &#{$prefix}#{$modifier}
             @content(-#{$direction})
 
 @mixin flex-alignments ()

@@ -1,13 +1,17 @@
-$dark: #363535;
-$green: #5CB31E;
-$ice: #F0F0FF;
-$purple: #9146FF;
+$dark: #2a2d48;
+$gold: #fad354;
+$green: #86be73;
+$ice: #d3d3f7;
+$purple: #af7aff;
+$red: #fa5d72;
 
 $colors: (
     dark: $dark,
+    gold: $gold,
     green: $green,
     ice: $ice,
-    purple: $purple
+    purple: $purple,
+    red: $red
 );
 
 $breakpoints: (
@@ -18,22 +22,22 @@ $breakpoints: (
     "xxl": 1400px
 );
 
-$fractions: 25, 33, 50, 66, 75, 100;
+$fractions: 0, 25, 33, 50, 66, 75, 100;
 
 $multiplier_levels: 10;
 
 $increments: (
-    n5: -4rem,
-    n4: -3rem,
-    n3: -2rem,
-    n2: -1rem,
-    n1: -.5rem,
+    n5: -4em,
+    n4: -3em,
+    n3: -2em,
+    n2: -1em,
+    n1: -.5em,
     0: 0,
-    1: .5rem,
-    2: 1rem,
-    3: 2rem,
-    4: 3rem,
-    5: 4rem
+    1: .5em,
+    2: 1em,
+    3: 2em,
+    4: 3em,
+    5: 4em
 );
 
 $directions: (
