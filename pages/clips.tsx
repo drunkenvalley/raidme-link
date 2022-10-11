@@ -1,11 +1,13 @@
 
-import Layout from '@/components/Layout'
-import { getSession, useSession } from "next-auth/react"
 import Image from 'next/image'
+import { unstable_getServerSession } from 'next-auth/next'
+import { useSession } from "next-auth/react"
 import { useCallback, useEffect, useState } from 'react'
+import Layout from '@/components/Layout'
+import { authOptions } from '@/pages/api/auth/[...nextauth]'
 
 export async function getServerSideProps(context) {
-    const session = await getSession(context)
+    const session = await unstable_getServerSession(context.req, context.res, authOptions)
 
     if (!session) {
         return {
@@ -87,7 +89,7 @@ export default function Dashboard() {
         }
 
         const output = clips.map(clip => (
-            <a href={clip.url} key={clip.id} className='flex flex-column min-w-0 overflow-hidden link-inside'>
+            <a href={clip.url} key={clip.id} className='flex flex-column min-w-0 overflow-hidden text--gold link-inside'>
                 <Image className='rounded-1' alt={clip.title} src={clip.thumbnail_url} width={480} height={276} />
                 <article className='flex flex-row align-items-center p-2'>
                     <h3 className='flex-grow-1 min-w-0'>
@@ -104,7 +106,7 @@ export default function Dashboard() {
     }
 
     return (
-        <Layout className='flex flex-column justify-content-center align-items-center'>
+        <Layout className='flex flex-column justify-content-center align-items-center bg--dark-300'>
             {status === 'unauthenticated' && (
                 <>Not logged in</>
             ) || loading && (
@@ -127,7 +129,7 @@ export default function Dashboard() {
                             </div>
                             {next && (
                                 <div className='flex flex-row justify-content-center'>
-                                    <button onClick={() => requestClips()} className="button--dark button-lg">
+                                    <button onClick={() => requestClips()} className="button--gold button-outline button-lg">
                                         Load more
                                         {loadingMore && <div className="ms-1 loader loader-inline" />}
                                     </button>

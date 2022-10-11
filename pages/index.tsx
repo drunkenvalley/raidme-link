@@ -13,7 +13,7 @@ export async function getServerSideProps(context) {
     if (!session) {
         return {
             redirect: {
-                destination: '/auth/signin',
+                destination: '/signin',
                 permanent: false
             }
         }
@@ -38,19 +38,19 @@ export default function Home() {
                 </p>
             </div>
             {session &&
-                <div className='max-w-400 p-3 bg--dark-500 rounded-md-2'>
+                <div className='max-w-400 p-3 bg--dark-300 rounded-md-2'>
                     <section className='flex flow-row align-items-center mb-3'>
                         <Image className='rounded-1' src={session.user.image} alt={session.user.name} height={100} width={100} />
                         <article className='mt-1'>
                             <h2 className='mb-1'>{session.user.name}</h2>
                             <button onClick={() => signOut()} className='link flex-inline align-items-center p-0'>
                                 <TwitchLogo height={16} className="me-1" />
-                                    Log out
+                                Sign out
                             </button>
                         </article>
                     </section>
                     <div className='flex flex-inline justify-content-space-between w-100 gap-3'>
-                        <Link href='/dashboard'>
+                        <Link href='/clips'>
                             <a className='button button-lg button--green button-outline flex-inline justify-content-center align-items-center text-center flex-grow min-w-0 max-w-100 px-2'>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-camera-reels me-1" viewBox="0 0 16 16">
                                     <path d="M6 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM1 3a2 2 0 1 0 4 0 2 2 0 0 0-4 0z"/>
@@ -60,7 +60,7 @@ export default function Home() {
                                     Stream
                             </a>
                         </Link>
-                        <Link href='/dashboard'>
+                        <Link href='/clips'>
                             <a className='button button-lg button--gold button-outline border-dashed flex-inline justify-content-center align-items-center text-center flex-grow min-w-0 max-w-100 px-2'>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-images me-1" viewBox="0 0 16 16">
                                     <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>

@@ -106,9 +106,26 @@
             @include increments using ($size)
                 margin#{$direction}: $size
 
-.max-w
-    &-400
-        max-width: 400px
+.max
+    @include breakpoints
+        &-h
+            @include fractions using ($fraction)
+                max-height: $fraction * 1%
+
+        &-vh
+            @include fractions using ($fraction)
+                max-height: $fraction * 1vh
+
+        &-vw
+            @include fractions using ($fraction)
+                max-width: $fraction * 1vw
+
+        &-w
+            @include fractions using ($fraction)
+                max-width: $fraction * 1%
+            
+            &-400
+                max-width: 400px
 
 .min
     @include breakpoints    

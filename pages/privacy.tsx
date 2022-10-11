@@ -12,7 +12,7 @@ export default function Privacy() {
 
     return (
         <Layout className='flex flex-column justify-content-center align-items-center'>
-            <ol className="flow">
+            <ol className="p-4 bg--dark-300 rounded-2 flow">
                 <legend>
                     <h2>
                         Privacy Policy

@@ -5,25 +5,8 @@ import { applicationDefault } from "firebase-admin/app"
 import { FirebaseAdminAdapter } from "@/firebase-next/auth/admin-adapter.firebase"
 
 export const authOptions: NextAuthOptions = {
-    // Configure one or more authentication providers
-    providers: [
-        TwitchProvider({
-            clientId: process.env.TWITCH_CLIENT_ID,
-            clientSecret: process.env.TWITCH_CLIENT_SECRET,
-            profile(profile) {
-                return {
-                    id: profile.sub,
-                    name: profile.preferred_username,
-                    email: profile.email,
-                    image: profile.picture,
-                }
-            }
-        })
-    ],
     adapter: FirebaseAdminAdapter({ credential: applicationDefault(), databaseURL: process.env.FIREBASE_DATABASE_URL }),
-    session: {
-        strategy: "jwt"
-    },
+    // Configure one or more authentication providers
     callbacks: {
         async jwt({ token, account }) {
             if (account) {
@@ -40,7 +23,28 @@ export const authOptions: NextAuthOptions = {
 
             return Promise.resolve(session)
         }
-    }
+    },
+    providers: [
+        TwitchProvider({
+            clientId: process.env.TWITCH_CLIENT_ID,
+            clientSecret: process.env.TWITCH_CLIENT_SECRET,
+            profile(profile) {
+                return {
+                    id: profile.sub,
+                    name: profile.preferred_username,
+                    email: profile.email,
+                    image: profile.picture,
+                }
+            }
+        })
+    ],
+    pages: {
+        signIn: '/signin',
+        signOut: '/'
+    },
+    session: {
+        strategy: "jwt"
+    },
 }
 
 export default NextAuth(authOptions)
