@@ -20,10 +20,7 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@/components/*": ["components/*"],
-      "@/firebase-next/*": ["firebase-next/*"],
-      "@/public/*": ["public/*"],
-      "@/styles/*": ["styles/*"]
+      "@/*": ["*"]
     }
   },
   "include": [

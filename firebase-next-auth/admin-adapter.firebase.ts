@@ -5,21 +5,21 @@ import admin from "firebase-admin"
 import { App, AppOptions, initializeApp, getApp, getApps } from 'firebase-admin/app'
 import { getFirestore, Firestore, Query } from 'firebase-admin/firestore'
 
-import { getConverter, GetConverterOptions } from 'firebase-next-auth/getConverter.firebase'
+import { getConverter, GetConverterOptions } from '@/firebase-next/getConverter.firebase'
 
-type IndexableObject = Record<string, unknown>
+export type IndexableObject = Record<string, unknown>
 
-/**
- * @method FirebaseAdapter
- * @summary Takes either a Firestore, a Firebase app, or Firebase options, returns Adapter for NextAuth
- */
-export function FirebaseAdminAdapter(options: AppOptions): Adapter {
+export function adapterApp(options: AppOptions): App {
     const appList = getApps()
-    const appName = 'next-auth-firebase-admin-adapter'
-    const app = !!appList.length && !!appList.find(a => a.name === appName) ? getApp(appName) : initializeApp(options, appName)
-    const firestore = getFirestore(app)
+    const appName = 'firebase-admin-adapter'
+    const app = !!appList.length && !!appList.find(a => a.name === appName)
+        ? getApp(appName)
+        : initializeApp(options, appName)
 
-    // Setup relevant collections
+    return app
+}
+
+export function getCollections(firestore: Firestore) {
     const collection = <T extends IndexableObject>(collectionPath: string, options?: GetConverterOptions) => firestore.collection(collectionPath).withConverter(getConverter<T>(options))
 
     const Users = collection<AdapterUser>('users')
@@ -27,9 +27,28 @@ export function FirebaseAdminAdapter(options: AppOptions): Adapter {
     const Accounts = collection<Account>('accounts')
     const VerificationTokens = collection<VerificationToken & IndexableObject>('verificationTokens', { excludeId: true })
 
+    return {
+        Users,
+        Sessions,
+        Accounts,
+        VerificationTokens
+    }
+}
+
+/**
+ * @method FirebaseAdapter
+ * @summary Takes Firebase Admin options, returns Adapter for NextAuth
+ */
+export function FirebaseAdminAdapter(options: AppOptions): Adapter {
+    const app = adapterApp(options)
+    const firestore = getFirestore(app)
+
+    const { Users, Sessions, Accounts, VerificationTokens } = getCollections(firestore)
+
     // Adapter functions
     return {
         async createUser(user) {
+            //@ts-ignore
             const ref = await Users.add(user)
             const snapshot = await ref.get()
 
@@ -42,7 +61,11 @@ export function FirebaseAdminAdapter(options: AppOptions): Adapter {
         async getUser(id) {
             const snapshot = await Users.doc(id).get()
 
-            return snapshot.data()
+            if (snapshot.exists) {
+                return snapshot.data()
+            }
+
+            return null
         },
         async getUserByEmail(email) {
             const users = await Users
@@ -90,19 +113,18 @@ export function FirebaseAdminAdapter(options: AppOptions): Adapter {
             throw '[updateUser] Failed to udpate user'
         },
         async deleteUser(userId) {
-            const ref = Users.doc(userId)
+            const user = Users.doc(userId)
+            const accounts = await Accounts
+                .where('userId', '==', userId)
+                .get()
+            const sessions = await Sessions
+                .where('userId', '==', userId)
+                .get()
 
             await firestore.runTransaction(async transaction => {
-                const accounts = await Sessions
-                    .where('userId', '==', userId)
-                    .get()
-                const sessions = await Sessions
-                    .where('userId', '==', userId)
-                    .get()
-
-                transaction.delete(ref)
-                accounts.forEach(account => transaction.delete(account.ref))
                 sessions.forEach(session => transaction.delete(session.ref))
+                accounts.forEach(account => transaction.delete(account.ref))
+                transaction.delete(user)
             })
         },
         async linkAccount(account) {
@@ -122,11 +144,13 @@ export function FirebaseAdminAdapter(options: AppOptions): Adapter {
 
             const snapshot = accounts.docs[0]
 
-            if (snapshot.exists) {
-                return snapshot.data()
+            if (snapshot?.exists) {
+                snapshot.ref.delete()
+                return
             }
         },
         async createSession(session) {
+            //@ts-ignore
             const ref = await Sessions.add(session)
             const snapshot = await ref.get()
 
@@ -144,7 +168,7 @@ export function FirebaseAdminAdapter(options: AppOptions): Adapter {
 
             const sessionSnapshot = sessions.docs[0]
 
-            if (sessionSnapshot.exists) {
+            if (sessionSnapshot?.exists) {
                 const session = sessionSnapshot.data()
                 const userSnapshot = await Users.doc(session.userId).get()
 
@@ -153,6 +177,8 @@ export function FirebaseAdminAdapter(options: AppOptions): Adapter {
                     return { session, user }
                 }
             }
+
+            return null
         },
         async updateSession(session) {
             const sessions = await Sessions
@@ -185,6 +211,7 @@ export function FirebaseAdminAdapter(options: AppOptions): Adapter {
             }
         },
         async createVerificationToken(verificationToken) {
+            //@ts-ignore
             const ref = await VerificationTokens.add(verificationToken)
             const snapshot = await ref.get()
 
@@ -203,13 +230,15 @@ export function FirebaseAdminAdapter(options: AppOptions): Adapter {
 
             const snapshot = tokens.docs[0]
 
-            if (snapshot.exists) {
+            if (snapshot?.exists) {
                 await snapshot.ref.delete()
 
                 const { id, ...verificationToken } = snapshot.data()
 
                 return verificationToken
             }
+
+            return null
         },
     }
 }
