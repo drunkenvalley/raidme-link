@@ -1,10 +1,8 @@
 // libs
 import NextAuth, { NextAuthOptions } from "next-auth"
 import TwitchProvider from "next-auth/providers/twitch"
-import { FirestoreAdapter } from "@next-auth/firebase-adapter"
-
-// config
-import firebaseOptions from "@/firebase-next/options.firebase"
+import { FirebaseAdminAdapter } from "firebase-next-auth/admin-adapter.firebase"
+import { applicationDefault } from "firebase-admin/app"
 
 export const authOptions: NextAuthOptions = {
     // Configure one or more authentication providers
@@ -21,16 +19,8 @@ export const authOptions: NextAuthOptions = {
                 }
             }
         })
-    // ...add more providers here
     ],
-    adapter: FirestoreAdapter({
-        ...firebaseOptions,
-        // Optional emulator config (see below for options)
-        emulator: {
-            host: 'localhost',
-            port: 3001
-        },
-    }),
+    adapter: FirebaseAdminAdapter({ credential: applicationDefault(), databaseURL: process.env.FIREBASE_DATABASE_URL }),
     session: {
         strategy: "jwt"
     },

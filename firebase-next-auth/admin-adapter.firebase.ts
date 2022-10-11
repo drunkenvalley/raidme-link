@@ -1,27 +1,23 @@
 import type { Account, Awaitable } from "next-auth"
 import { Adapter, AdapterUser, AdapterSession, VerificationToken, } from 'next-auth/adapters'
 
-import { App, AppOptions, initializeApp } from 'firebase-admin/app'
+import admin from "firebase-admin"
+import { App, AppOptions, initializeApp, getApp, getApps } from 'firebase-admin/app'
 import { getFirestore, Firestore, Query } from 'firebase-admin/firestore'
 
-import { getConverter, GetConverterOptions } from 'next-auth/getConverter.firebase'
+import { getConverter, GetConverterOptions } from 'firebase-next-auth/getConverter.firebase'
 
 type IndexableObject = Record<string, unknown>
-
-interface AdapterProps {
-    app?: App,
-    firestore?: Firestore
-    options?: AppOptions
-}
 
 /**
  * @method FirebaseAdapter
  * @summary Takes either a Firestore, a Firebase app, or Firebase options, returns Adapter for NextAuth
  */
-export default function FirebaseAdminAdapter({ app, firestore, options }: AdapterProps): Adapter {
-    // Init firestore
-    firestore = firestore || getFirestore(app) || getFirestore(initializeApp(options))
-    if (!firestore) throw 'Missing property to instantiate db'
+export function FirebaseAdminAdapter(options: AppOptions): Adapter {
+    const appList = getApps()
+    const appName = 'next-auth-firebase-admin-adapter'
+    const app = !!appList.length && !!appList.find(a => a.name === appName) ? getApp(appName) : initializeApp(options, appName)
+    const firestore = getFirestore(app)
 
     // Setup relevant collections
     const collection = <T extends IndexableObject>(collectionPath: string, options?: GetConverterOptions) => firestore.collection(collectionPath).withConverter(getConverter<T>(options))
@@ -49,14 +45,18 @@ export default function FirebaseAdminAdapter({ app, firestore, options }: Adapte
             return snapshot.data()
         },
         async getUserByEmail(email) {
-            const query = await Users
+            const users = await Users
                 .where('email', '==', email)
                 .limit(1)
                 .get()
 
-            const snapshot = query.docs[0]
+            const snapshot = users.docs[0]
 
-            return snapshot.exists ? snapshot?.data() : null
+            if (snapshot?.exists) {
+                return snapshot.data()
+            }
+
+            return null
         },
         async getUserByAccount({ provider, providerAccountId }) {
             const accounts = await Accounts
@@ -67,14 +67,16 @@ export default function FirebaseAdminAdapter({ app, firestore, options }: Adapte
 
             const accountSnapshot = accounts.docs[0]
 
-            if (accountSnapshot.exists) {
+            if (accountSnapshot?.exists) {
                 const { userId } = accountSnapshot.data()
                 const userSnapshot = await Users.doc(userId).get()
 
-                if (userSnapshot.exists) {
+                if (userSnapshot?.exists) {
                     return userSnapshot.data()
                 }
             }
+
+            return null
         },
         async updateUser(user) {
             const ref = Users.doc(user.id)
