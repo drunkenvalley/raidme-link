@@ -1,9 +1,6 @@
 import { getFirestore } from "firebase-admin/firestore"
-import { disconnect } from "process"
 import { adapterApp, FirebaseAdminAdapter, getCollections } from "./admin-adapter.firebase"
 import { runBasicTests } from "./basic-tests"
-
-process.env.FIRESTORE_EMULATOR_HOST = 'localhost:3001'
 
 const app = adapterApp({ projectId: 'next-auth-test' })
 const firestore = getFirestore(app)
