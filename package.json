@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint -- --fix",
-    "test": "jest",
+    "test": "jest --coverage",
     "emulate-firebase": "npx firebase emulators:start"
   },
   "dependencies": {

@@ -1,8 +1,8 @@
 // libs
 import NextAuth, { NextAuthOptions } from "next-auth"
 import TwitchProvider from "next-auth/providers/twitch"
-import { FirebaseAdminAdapter } from "firebase-next-auth/admin-adapter.firebase"
 import { applicationDefault } from "firebase-admin/app"
+import { FirebaseAdminAdapter } from "@/firebase-next/auth/admin-adapter.firebase"
 
 export const authOptions: NextAuthOptions = {
     // Configure one or more authentication providers

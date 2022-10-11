@@ -1,13 +1,15 @@
 import { getFirestore } from "firebase-admin/firestore"
-import { adapterApp, FirebaseAdminAdapter, getCollections } from "./admin-adapter.firebase"
-import { runBasicTests } from "./basic-tests"
+import { getAdminApp } from "@/firebase-next/getAdminApp.firebase"
+import { getCollections } from "@/firebase-next/getCollections.firebase"
+import { runBasicTests } from "@/firebase-next/auth/basic-tests"
+import { FirebaseAuthAdapter } from "@/firebase-next/auth/auth-adapter.firebase"
 
-const app = adapterApp({ projectId: 'next-auth-test' })
+const app = getAdminApp({ projectId: 'next-auth-test' }, 'firebase-admin-sdk-next-auth')
 const firestore = getFirestore(app)
 const { Users, Sessions, Accounts, VerificationTokens } = getCollections(firestore)
 
 runBasicTests({
-    adapter: FirebaseAdminAdapter({ projectId: 'next-auth-test' }),
+    adapter: FirebaseAuthAdapter({ projectId: 'next-auth-test' }),
     db: {
         async disconnect() {
             /**

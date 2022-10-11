@@ -1,46 +1,17 @@
-import type { Account, Awaitable } from "next-auth"
-import { Adapter, AdapterUser, AdapterSession, VerificationToken, } from 'next-auth/adapters'
-
-import admin from "firebase-admin"
-import { App, AppOptions, initializeApp, getApp, getApps } from 'firebase-admin/app'
-import { getFirestore, Firestore, Query } from 'firebase-admin/firestore'
-
-import { getConverter, GetConverterOptions } from '@/firebase-next/getConverter.firebase'
+import { Adapter } from 'next-auth/adapters'
+import { AppOptions } from 'firebase-admin/app'
+import { getFirestore } from 'firebase-admin/firestore'
+import { getAdminApp } from "@/firebase-next/getAdminApp.firebase"
+import { getCollections } from "@/firebase-next/getCollections.firebase"
 
 export type IndexableObject = Record<string, unknown>
-
-export function adapterApp(options: AppOptions): App {
-    const appList = getApps()
-    const appName = 'firebase-admin-adapter'
-    const app = !!appList.length && !!appList.find(a => a.name === appName)
-        ? getApp(appName)
-        : initializeApp(options, appName)
-
-    return app
-}
-
-export function getCollections(firestore: Firestore) {
-    const collection = <T extends IndexableObject>(collectionPath: string, options?: GetConverterOptions) => firestore.collection(collectionPath).withConverter(getConverter<T>(options))
-
-    const Users = collection<AdapterUser>('users')
-    const Sessions = collection<AdapterSession & IndexableObject>('sessions')
-    const Accounts = collection<Account>('accounts')
-    const VerificationTokens = collection<VerificationToken & IndexableObject>('verificationTokens', { excludeId: true })
-
-    return {
-        Users,
-        Sessions,
-        Accounts,
-        VerificationTokens
-    }
-}
 
 /**
  * @method FirebaseAdapter
  * @summary Takes Firebase Admin options, returns Adapter for NextAuth
  */
 export function FirebaseAdminAdapter(options: AppOptions): Adapter {
-    const app = adapterApp(options)
+    const app = getAdminApp(options, 'firebase-admin-sdk-next-auth')
     const firestore = getFirestore(app)
 
     const { Users, Sessions, Accounts, VerificationTokens } = getCollections(firestore)
@@ -110,7 +81,7 @@ export function FirebaseAdminAdapter(options: AppOptions): Adapter {
                 return snapshot.data()
             }
 
-            throw '[updateUser] Failed to udpate user'
+            throw '[updateUser] Failed to update user'
         },
         async deleteUser(userId) {
             const user = Users.doc(userId)

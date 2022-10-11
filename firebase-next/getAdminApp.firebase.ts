@@ -1,13 +1,12 @@
 import { AppOptions } from "firebase-admin"
 import { App, getApp, getApps } from "firebase-admin/app"
-import { initializeApp } from "firebase/app"
+import { initializeApp } from "firebase-admin/app"
 
-export function getAdminApp(options: AppOptions, name: string): App {
+export function getAdminApp(options: AppOptions, name: string = 'firebase-admin-app'): App {
     const appList = getApps()
-    const appName = 'firebase-admin-adapter'
-    const app = !!appList.length && !!appList.find(a => a.name === appName)
-        ? getApp(appName)
-        : initializeApp(options, appName)
+    const app = !!appList.length && !!appList.find(a => a.name === name)
+        ? getApp(name)
+        : initializeApp(options, name)
 
     return app
 }
