@@ -1,9 +1,10 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import SiteLogo from "@/components/SiteLogo"
+import SiteLogo from "@/components/Logos/SiteLogo"
+import { ReactNode } from 'react'
 
 interface Props {
-    children: JSX.Element[]|JSX.Element|string
+    children: ReactNode
     className: string
     title: string
 }

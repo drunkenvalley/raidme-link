@@ -38,6 +38,11 @@
         &-#{$fraction}
             @content($fraction)
 
+@mixin headings
+    @each $heading, $size in $heading-sizes
+        #{$heading}
+            font-size: $size
+
 @mixin hover
     &:hover, &:focus, &:focus-within
         @content

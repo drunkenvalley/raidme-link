@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 
 import Card from "@/components/Card"
 import Layout from "@/components/Layout"
-import SiteLogo from "@/components/SiteLogo"
+import SiteLogo from "@/components/Logos/SiteLogo"
 import mergeClass from "utils/mergeClass"
 
 interface ColorProps {

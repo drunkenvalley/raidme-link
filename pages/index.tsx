@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { unstable_getServerSession } from 'next-auth/next'
 import { signOut, useSession } from "next-auth/react"
 import Layout from '@/components/Layout'
-import TwitchLogo from "@/components/TwitchLogo"
+import TwitchLogo from "@/components/Logos/TwitchLogo"
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 
 export async function getServerSideProps(context) {

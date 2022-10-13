@@ -18,6 +18,8 @@ h1, h2, h3, h4, h5, h6
     color: var(--gold)
     margin-block-end: map.get($increments, 1)
 
+@include headings
+
 p
     margin-block-end: map.get($increments, 3)
 
@@ -118,7 +120,7 @@ a.button::before
     &-sm
         padding: map.get($increments, 1)*.5 map.get($increments, 2)*.5
     &-lg
-        padding: map.get($increments, 2) map.get($increments, 3)
+        padding: map.get($increments, 2)
 
     &.link
         --bg-color: transparent
