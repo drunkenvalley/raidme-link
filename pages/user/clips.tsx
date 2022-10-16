@@ -1,23 +1,10 @@
 
 import Image from 'next/image'
-import { unstable_getServerSession } from 'next-auth/next'
 import { useSession } from "next-auth/react"
 import { useCallback, useEffect, useState } from 'react'
 import Layout from '@/components/Layout'
-import { authOptions } from '@/pages/api/auth/[...nextauth]'
 
 export async function getServerSideProps(context) {
-    const session = await unstable_getServerSession(context.req, context.res, authOptions)
-
-    if (!session) {
-        return {
-            redirect: {
-                destination: '/',
-                permanent: false,
-            },
-        }
-    }
-
     return {
         props: {}
     }

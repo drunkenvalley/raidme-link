@@ -39,8 +39,7 @@ export const authOptions: NextAuthOptions = {
         })
     ],
     pages: {
-        signIn: '/signin',
-        signOut: '/'
+        signIn: '/'
     },
     session: {
         strategy: "jwt"

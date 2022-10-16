@@ -1,77 +1,64 @@
-import Link from 'next/link'
-import Image from 'next/image'
-import { unstable_getServerSession } from 'next-auth/next'
-import { signOut, useSession } from "next-auth/react"
-import Layout from '@/components/Layout'
+import Link from "next/link"
+import { unstable_getServerSession } from "next-auth/next"
+import { BuiltInProviderType } from "next-auth/providers"
+import { ClientSafeProvider, getProviders, LiteralUnion, signIn } from "next-auth/react"
+import Layout from "@/components/Layout"
+import SiteLogo from "@/components/Logos/SiteLogo"
 import TwitchLogo from "@/components/Logos/TwitchLogo"
-import { authOptions } from '@/pages/api/auth/[...nextauth]'
+import { authOptions } from "@/pages/api/auth/[...nextauth]"
+
+interface Props {
+    providers: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider>
+}
 
 export async function getServerSideProps(context) {
     const getServerSession = unstable_getServerSession // presume 'unstable_' goes away eventually
 
     const session = await getServerSession(context.req, context.res, authOptions)
-    if (!session) {
+    if (session) {
         return {
             redirect: {
-                destination: '/signin',
+                destination: '/user',
                 permanent: false
             }
         }
     }
 
+    const providers = await getProviders()
     return {
-        props: {},
+        props: { providers },
     }
 }
 
-export default function Home() {
-    const { data: session } = useSession()
-
+export default function SignIn({ providers }: Props) {
     return (
-        <Layout className='flex flex-column justify-content-center align-items-center px-0'>
-            <div className='max-w-400 p-3'>
-                <h1>
-                    Welcome to <Link href='/'><a className='text--purple'>Raid Me</a></Link>
-                </h1>
-                <p>
-                    A site to improve relations between&nbsp;streamers; letting&nbsp;streamers control what streams and content is shouted out.
-                </p>
+        <Layout className="flex flex-column justify-content-center align-items-center px-0 flow">
+            <div className='flow max-w-400 flex flex-column justify-content-center align-items-center'>
+                <article>
+                    <h1 className="h1 text-left w-100">
+                        Welcome to <Link href='/'><a className='text--purple'><SiteLogo height={'.8em'} /> Raid Me</a></Link>
+                    </h1>
+                    <p>
+                        A site to improve relations between&nbsp;streamers; letting&nbsp;streamers control what streams and content is shouted out.
+                    </p>
+                </article>
             </div>
-            {session &&
-                <div className='max-w-400 p-3 bg--dark-300 rounded-md-2'>
-                    <section className='flex flow-row align-items-center mb-3'>
-                        <Image className='rounded-1' src={session.user.image} alt={session.user.name} height={100} width={100} />
-                        <article className='mt-1'>
-                            <h2 className='mb-1'>{session.user.name}</h2>
-                            <button onClick={() => signOut()} className='link flex-inline align-items-center p-0'>
-                                <TwitchLogo height={16} className="me-1" />
-                                Sign out
-                            </button>
-                        </article>
-                    </section>
-                    <div className='flex flex-inline justify-content-space-between w-100 gap-3'>
-                        <Link href='/clips'>
-                            <a className='button button-lg button--green button-outline flex-inline justify-content-center align-items-center text-center flex-grow min-w-0 max-w-100 px-2'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-camera-reels me-1" viewBox="0 0 16 16">
-                                    <path d="M6 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM1 3a2 2 0 1 0 4 0 2 2 0 0 0-4 0z"/>
-                                    <path d="M9 6h.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 7.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 16H2a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h7zm6 8.73V7.27l-3.5 1.555v4.35l3.5 1.556zM1 8v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1z"/>
-                                    <path d="M9 6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM7 3a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>
-                                </svg>
-                                    Stream
-                            </a>
-                        </Link>
-                        <Link href='/clips'>
-                            <a className='button button-lg button--gold button-outline border-dashed flex-inline justify-content-center align-items-center text-center flex-grow min-w-0 max-w-100 px-2'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-images me-1" viewBox="0 0 16 16">
-                                    <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-                                    <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"/>
-                                </svg>
-                                    Clips
-                            </a>
-                        </Link>
-                    </div>
-                </div>
-            }
+            <div className="max-w-400 p-3 bg--dark-300 rounded-md-2 flex-row justify-content-center align-items-center flow">
+                <article>
+                    <h2 className="mb-2 text-center">
+                        Sign in to use services
+                    </h2>
+                    <p>
+                        To be able to make use of our services you must log in. Required data is stored in accordance with our <Link href="/privacy"><a className="">privacy policy</a></Link>.
+                    </p>
+                </article>
+
+                {providers && Object.values(providers).map((provider) => (
+                    <button onClick={() => signIn(provider.id)} className="button--gold button-outline p-2 flex align-items-center" key={provider.name}>
+                        <TwitchLogo className="me-1" height='1.2em' /> Sign in with {provider.name}
+                    </button>
+                ))}
+            </div>
         </Layout>
     )
 }
