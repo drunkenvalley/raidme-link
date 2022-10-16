@@ -40,15 +40,30 @@ export default function Layout({ children, className, title, ...rest }: Partial<
                             </a>
                         </Link>
                     </li>
+                </ul>
+            </nav>
+            <main className={className} {...rest}>
+                {children}
+            </main>
+            <footer className="p-3 pt-3 lineheight-0 flex flex-wrap bg--dark-500">
+                <div className='flex-grow' />
+                <ul className='flex-inline list flow-row'>
                     <li>
-                        <Link href="/help">
+                        <Link href="/brand">
                             <a>
-                                Help
+                                Brand
                             </a>
                         </Link>
                     </li>
                     <li>
-                        <Link href="/privacy">
+                        <Link href="/legal#terms-of-service">
+                            <a>
+                                Terms
+                            </a>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/legal#privacy-policy">
                             <a>
                                 Privacy
                             </a>
@@ -60,10 +75,7 @@ export default function Layout({ children, className, title, ...rest }: Partial<
                         </a>
                     </li>
                 </ul>
-            </nav>
-            <main className={className} {...rest}>
-                {children}
-            </main>
+            </footer>
         </>
     )
 }

@@ -4,7 +4,7 @@ import mergeClass from "@/utils/mergeClass"
 import Link from "next/link"
 import { ReactNode, useEffect, useState } from "react"
 
-export default function Privacy() {
+export default function Legal() {
     const TwitchTV = () => (
         // Hyperlink for Twitch TV with logo
         <a href="twitch.tv" className="flex-inline align-items-baseline lineheight-1">
