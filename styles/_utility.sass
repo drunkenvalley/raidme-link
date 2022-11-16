@@ -27,8 +27,13 @@
             background-color: var(--#{$color})
 
 .display
-    @include options ($list: (inline, block, contents, flex, grid, inline-block, inline-flex, inline-grid, inline-table, list-item, run-in, table, table-caption, table-column-group, table-header-group, table-footer-group, table-row-group, table-cell, table-column, table-row, none, initial, inherit)) using ($display)
+    $options: (inline, block, contents, flex, grid, inline-block, inline-flex, inline-grid, inline-table, list-item, run-in, table, table-caption, table-column-group, table-header-group, table-footer-group, table-row-group, table-cell, table-column, table-row, none, initial, inherit)
+    @include options ($list: $options) using ($display)
         display: $display
+
+    &-forced
+        @include options ($list: $options) using ($display)
+            display: $display !important
 
 .block
     display: block
@@ -161,10 +166,10 @@
         position: $position
 
 .rounded
-    @include breakpoints
-        @include increments using ($increment)
-            border-radius: $increment * .5
-            overflow: hidden
+    @include directions-rounded ($prefix: '-') using ($direction)
+        @include breakpoints
+            @include increments using ($increment)
+                border#{$direction}-radius: $increment * .5
 
 .text
     @include swatches using ($color, $hex)
@@ -173,6 +178,10 @@
 
     @include options ($list: (left, center, right)) using ($text-direction)
         text-align: $text-direction
+
+.shadow
+    --shadow-color: var(--dark-500)
+    box-shadow: 0px 0px 8px 0px var(--shadow-color)
 
 .truncate
     width: 100%

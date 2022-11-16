@@ -31,6 +31,13 @@ $directions: (
     "b": block-end
 );
 
+$directions-rounded: (
+    "s": ("top-left", "bottom-left"),
+    "t": ("top-left", "top-right"),
+    "e": ("top-right", "bottom-right"),
+    "b": ("bottom-left", "bottom-right"),
+);
+
 $flex-flex-alignments: start, end, center, space-between, space-around, space-evenly, stretch, baseline;
 
 $fractions: 0, 25, 33, 50, 66, 75, 100;

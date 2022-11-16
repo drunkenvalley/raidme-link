@@ -33,17 +33,7 @@ export async function getServerSideProps(context) {
 export default function SignIn({ providers }: Props) {
     return (
         <Layout className="flex flex-column justify-content-center align-items-center px-0 flow">
-            <div className='flow max-w-400 flex flex-column justify-content-center align-items-center'>
-                <article>
-                    <h1 className="h1 text-left w-100">
-                        Welcome to <Link href='/'><a className='text--purple'><SiteLogo height={'.8em'} /> Raid Me</a></Link>
-                    </h1>
-                    <p>
-                        A site to improve relations between&nbsp;streamers; letting&nbsp;streamers control what streams and content is shouted out.
-                    </p>
-                </article>
-            </div>
-            <div className="max-w-400 p-3 bg--dark-300 rounded-md-2 flex-row justify-content-center align-items-center flow">
+            <div className="max-w-400 p-3 flex-row justify-content-center align-items-center flow">
                 <article>
                     <h2 className="mb-2 text-center">
                         Sign in to use services

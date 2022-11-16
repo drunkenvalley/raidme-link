@@ -1,5 +1,47 @@
 @use './mixins' as *
 
+.clip
+    --offset-x: 0px
+    --offset-y: 0px
+    --scale: 1
+
+    &::before
+        content: none
+    
+    &-image-wrapper
+        position: relative
+
+        &::before
+            content: ""
+            box-sizing: border-box
+            border-radius: inherit
+            background-color: currentColor
+            position: absolute
+            top: 1px
+            left: 1px
+            right: 1px
+            bottom: 1px
+            transform: translate(calc(var(--offset-x) * -1), calc(var(--offset-y) * -1)) scale(var(--scale))
+            transition: transform 75ms linear
+
+        & *
+            border-radius: inherit
+            color: inherit
+
+        & > *
+            display: block !important
+            transform: translate(var(--offset-x), var(--offset-y)) scale(var(--scale))
+            transition: transform 75ms linear
+    
+    @include hover
+        --offset-x: 3px
+        --offset-y: -3px
+        --scale: 1.0
+
+    @include hover ($children: true)
+        &-image-wrapper > *
+            
+
 .flex-list
     li, .list-item
         display: flex

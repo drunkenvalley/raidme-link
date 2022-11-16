@@ -28,6 +28,15 @@
         &#{$prefix}#{$modifier}
             @content(-#{$direction})
 
+@mixin directions-rounded ($prefix: '')
+    &
+        @content('')
+    
+    @each $modifier, $direction in $directions-rounded
+        &#{$prefix}#{$modifier}
+            @each $corner in $direction
+                @content(-#{$corner})
+
 @mixin flex-alignments ()
     @each $alignment in $flex-flex-alignments
         &-#{$alignment}
@@ -40,12 +49,18 @@
 
 @mixin headings
     @each $heading, $size in $heading-sizes
-        #{$heading}
+        #{$heading}, .#{$heading}
             font-size: $size
+            font-weight: 700
 
-@mixin hover
+@mixin hover ($children: false)
+    $parent: &
     &:hover, &:focus, &:focus-within
-        @content
+        @if ($children)
+            #{$parent}
+                @content
+        @else 
+            @content
 
 @mixin increments
     @each $increment, $size in $increments
