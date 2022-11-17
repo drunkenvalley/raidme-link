@@ -1,13 +1,14 @@
+import { ReactNode } from "react"
 import mergeClass from "utils/mergeClass"
 
 interface IProps {
-    children: any
+    children: ReactNode
     className: string
     img: JSX.Element,
     nav: JSX.Element|string|never
 }
 
-export default function Card({ children, className = '', img, nav }: Partial<IProps>): JSX.Element {
+export default function Card({ children, className = "", img, nav }: Partial<IProps>): JSX.Element {
     return (
         <div className={mergeClass(["display-inline-block", className])}>
             {img && (

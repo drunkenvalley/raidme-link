@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 
 import Card from "@/components/Card"
 import Layout from "@/components/Layout"
@@ -16,7 +16,7 @@ interface SwatchProps {
 }
 
 interface GenericComponent {
-    children: any
+    children: ReactNode,
     className: string
 }
 
@@ -36,16 +36,16 @@ interface MappedComponent extends GenericComponent {
 }
 
 export default function Brand(): JSX.Element {
-    const capitalize = (s: string = '') => s && s[0].toUpperCase() + s.slice(1) || ''
-    const rgba2hex = (rgba) => rgba.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+\.{0,1}\d*))?\)$/).slice(1).map((n, i) => (i === 3 ? Math.round(parseFloat(n) * 255) : parseFloat(n)).toString(16).padStart(2, '0').replace('NaN', '')).join('')
-    const colorArr = ['dark', 'purple', 'ice', 'green', 'gold', 'red']
+    const capitalize = (s = "") => s && s[0].toUpperCase() + s.slice(1) || ""
+    const rgba2hex = (rgba) => rgba.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+\.{0,1}\d*))?\)$/).slice(1).map((n, i) => (i === 3 ? Math.round(parseFloat(n) * 255) : parseFloat(n)).toString(16).padStart(2, "0").replace("NaN", "")).join("")
+    const colorArr = ["dark", "purple", "ice", "green", "gold", "red"]
 
     const Components = ({ component, children, className, name }: Partial<MappedComponent>): JSX.Element => {
         const Component = component
         return (
             <div className="flow mb-2">
                 {colorArr.map(color => (
-                    <Component key={`${name || 'component'}-${color}`} className={className} color={color}>
+                    <Component key={`${name || "component"}-${color}`} className={className} color={color}>
                         {children && children}
                     </Component>
                 ))}
@@ -54,7 +54,7 @@ export default function Brand(): JSX.Element {
 
     const Logos = ({ children, className }: Partial<GenericComponent>) => {
         const logo = ({ color }: Partial<IChildComponent>) => (
-            <Card key={`logo-${color}`} className="text-center" img={(<div className={mergeClass(['p-2'])}><SiteLogo height={48} className={`text--${color}`} /></div>)}>
+            <Card key={`logo-${color}`} className="text-center" img={(<div className={mergeClass(["p-2"])}><SiteLogo height={48} className={`text--${color}`} /></div>)}>
                 {capitalize(color)}
             </Card>
         )
@@ -67,7 +67,7 @@ export default function Brand(): JSX.Element {
 
     const Anchors = ({ children, className }: Partial<GenericComponent>) => {
         const anchor = ({ color }: Partial<IChildComponent>) => (
-            <div className={'display-inline p-2 rounded-1'}>
+            <div className={"display-inline p-2 rounded-1"}>
                 <a className={mergeClass([`text--${color}`, className])} href="">
                     {capitalize(color)}
                 </a>
@@ -98,13 +98,13 @@ export default function Brand(): JSX.Element {
             <div id={`brand-${color}-${swatch}`} className={`bg--${color}-${swatch} w-100 py-4`}>
             </div>
         )
-        const [hex, setHex] = useState('')
+        const [hex, setHex] = useState("")
 
         useEffect(() => setHex(
             rgba2hex(
                 window.getComputedStyle(
                     document.querySelector(`#brand-${color}-${swatch}`), null
-                ).getPropertyValue('background-color')
+                ).getPropertyValue("background-color")
             )
         ), [color, swatch])
 

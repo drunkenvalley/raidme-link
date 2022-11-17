@@ -4,12 +4,12 @@ import { getCollections } from "@/firebase-next/getCollections.firebase"
 import { runBasicTests } from "@/firebase-next/auth/basic-tests"
 import { FirebaseAuthAdapter } from "@/firebase-next/auth/auth-adapter.firebase"
 
-const app = getAdminApp({ projectId: 'next-auth-test' }, 'firebase-admin-sdk-next-auth')
+const app = getAdminApp({ projectId: "next-auth-test" }, "firebase-admin-sdk-next-auth")
 const firestore = getFirestore(app)
 const { Users, Sessions, Accounts, VerificationTokens } = getCollections(firestore)
 
 runBasicTests({
-    adapter: FirebaseAuthAdapter({ projectId: 'next-auth-test' }),
+    adapter: FirebaseAuthAdapter({ projectId: "next-auth-test" }),
     db: {
         async disconnect() {
             /**
@@ -26,7 +26,7 @@ runBasicTests({
             items.forEach(item => item.ref.delete())
         },
         async session(sessionToken) {
-            const sessions = await Sessions.where('sessionToken', '==', sessionToken).limit(1).get()
+            const sessions = await Sessions.where("sessionToken", "==", sessionToken).limit(1).get()
             const snapshot = sessions.docs[0]
 
             if (snapshot?.exists) {
@@ -46,8 +46,8 @@ runBasicTests({
         },
         async account({ provider, providerAccountId }) {
             const accounts = await Accounts
-                .where('provider', '==', provider)
-                .where('providerAccountId', '==', providerAccountId)
+                .where("provider", "==", provider)
+                .where("providerAccountId", "==", providerAccountId)
                 .limit(1)
                 .get()
 
@@ -62,8 +62,8 @@ runBasicTests({
         },
         async verificationToken({ identifier, token }) {
             const tokens = await VerificationTokens
-                .where('identifier', '==', identifier)
-                .where('token', '==', token)
+                .where("identifier", "==", identifier)
+                .where("token", "==", token)
                 .limit(1)
                 .get()
             const snapshot = tokens.docs[0]

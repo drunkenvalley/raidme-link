@@ -13,10 +13,10 @@ export default function Legal() {
         </a>
     )
     const MarkedH2 = ({ children }: { children: string }) => (
-        <h2 id={children.toLowerCase().split(' ').join('-')} className="marker-heading-h2">
+        <h2 id={children.toLowerCase().split(" ").join("-")} className="marker-heading-h2">
             <span>{children}</span>
             &nbsp;
-            <a href={'#' + children.toLowerCase().split(' ').join('-')} aria-label={`Go to ${children}`}>#</a>
+            <a href={"#" + children.toLowerCase().split(" ").join("-")} aria-label={`Go to ${children}`}>#</a>
         </h2>
     )
     const Section = ({ children, className }: { children: ReactNode, className?: string }) => (
@@ -27,13 +27,13 @@ export default function Legal() {
 
     const [headings, setHeadings] = useState([])
     useEffect(() => {
-        const els = document.querySelectorAll('.marker-heading-h2 span')
+        const els = document.querySelectorAll(".marker-heading-h2 span")
         setHeadings([...els])
     }, [])
 
     const tocItems = headings.map((heading, i) => (
         <li key={`toc-heading-${i}`}>
-            <a href={'#' + heading.innerText.toLowerCase().split(' ').join('-')}>
+            <a href={"#" + heading.innerText.toLowerCase().split(" ").join("-")}>
                 {heading.innerText}
             </a>
         </li>

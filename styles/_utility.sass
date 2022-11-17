@@ -172,6 +172,9 @@
                 border#{$direction}-radius: $increment * .5
 
 .text
+    &--inherit
+        color: inherit
+
     @include swatches using ($color, $hex)
         &--#{$color}
             color: var(--#{$color})

@@ -1,6 +1,6 @@
 import { unstable_getServerSession } from "next-auth/next"
 import { authOptions } from "../auth/[...nextauth]"
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router"
 
 export default async function GetDb(req, res) {
     const [method] = req.query.method

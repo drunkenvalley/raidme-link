@@ -1,0 +1,15 @@
+import Component from "@/components/Logos/SiteLogo"
+import { ComponentMeta, ComponentStory } from "@storybook/react"
+
+export default {
+    title: "Symbols/Logos/Site",
+    component: Component
+} as ComponentMeta<typeof Component>
+
+const Template: ComponentStory<typeof Component> = args => <Component {...args} />
+
+export const SiteLogo = Template.bind({})
+SiteLogo.args = {
+    className: "text--dark",
+    height: 64
+}

@@ -1,9 +1,27 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:storybook/recommended",
+    "plugin:react-hooks/recommended",
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "overrides": [
+    {
+      "files": "*.tsx, *.ts, *.jsx, *.js"
+    }
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "rules": {
-    "indent": ["warn", 4],
+    "indent": ["off"],
     "no-irregular-whitespace": ["warn"],
     "no-trailing-spaces": ["warn"],
-    "semi": ["warn", "never"]
+    "quotes": ["warn", "double"],
+    "semi": ["warn", "never"],
+    "@typescript-eslint/indent": ["warn", 4]
   }
 }

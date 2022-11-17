@@ -1,5 +1,5 @@
-import Layout from '@/components/Layout'
-import { useRouter } from 'next/router'
+import Layout from "@/components/Layout"
+import { useRouter } from "next/router"
 
 export default function PublishedUser() {
     const router = useRouter()

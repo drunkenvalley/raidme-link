@@ -1,10 +1,10 @@
-import Head from 'next/head'
-import Link from 'next/link'
+import Head from "next/head"
+import Link from "next/link"
 import SiteLogo from "@/components/Logos/SiteLogo"
-import TwitchLogo from '@/components/Logos/TwitchLogo'
-import { ReactNode } from 'react'
-import { signOut, useSession } from 'next-auth/react'
-import Image from 'next/image'
+import TwitchLogo from "@/components/Logos/TwitchLogo"
+import { ReactNode } from "react"
+import { signOut, useSession } from "next-auth/react"
+import Image from "next/image"
 interface Props {
     children: ReactNode
     className: string
@@ -12,9 +12,9 @@ interface Props {
 }
 
 export default function Layout({ children, className, title, ...rest }: Partial<Props>) {
-    const brandname = 'Raid Me'
-    const pagetitle = [brandname, title].filter(Boolean).join(' - ')
-    className = ['container flex-grow', className].filter(Boolean).join(' ')
+    const brandname = "Raid Me"
+    const pagetitle = [brandname, title].filter(Boolean).join(" - ")
+    className = ["container flex-grow", className].filter(Boolean).join(" ")
 
     const { data: session } = useSession()
 

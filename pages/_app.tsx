@@ -1,4 +1,4 @@
-import '@/styles/index.sass'
+import "@/styles/index.sass"
 
 import { SessionProvider } from "next-auth/react"
 

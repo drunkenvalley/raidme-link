@@ -1,9 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    eslint: {
+        dirs: [
+            ".storybook",
+            "components",
+            "interfaces",
+            "pages",
+            "stories",
+            "utils"
+        ]
+    },
     images: {
         domains: [
-            'clips-media-assets2.twitch.tv',
-            'static-cdn.jtvnw.net'
+            "clips-media-assets2.twitch.tv",
+            "static-cdn.jtvnw.net"
         ]
     },
     async redirects() {

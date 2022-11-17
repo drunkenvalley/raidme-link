@@ -19,8 +19,7 @@ export function FirebaseAdminAdapter(options: AppOptions): Adapter {
     // Adapter functions
     return {
         async createUser(user) {
-            //@ts-ignore
-            const ref = await Users.add(user)
+            const ref = await Users.add(user as never)
             const snapshot = await ref.get()
 
             if (snapshot.exists) {

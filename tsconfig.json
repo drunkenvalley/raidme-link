@@ -22,7 +22,8 @@
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": false
+    "strict": false,
+    "strictBindCallApply": true
   },
   "include": [
     "next-env.d.ts",
