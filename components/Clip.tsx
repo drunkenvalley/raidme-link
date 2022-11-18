@@ -9,6 +9,11 @@ interface Props {
 }
 
 export default function Clip ({ clip, onClick }: Props) {
+    const func = (event) => {
+        event.preventDefault()
+        onClick(event)
+    }
+
     return (
         clip &&
         <a href={clip.url.toString()} key={clip.id} className='flex flex-column min-w-0 text--gold clip'>
@@ -21,7 +26,10 @@ export default function Clip ({ clip, onClick }: Props) {
                         {clip.title}
                     </p>
                 </div>
-                <button type='button' onClick={onClick} className='button-outline button--gold button-sm p-1 ms-1 flex align-items-center'><Star filled={false} /></button>
+                <button type='button' onClick={func} className='button-outline button--gold button-sm p-1 ms-1 flex align-items-center'><Star filled={false} /></button>
             </article>
-        </a>
+        </a> ||
+        <div className='flex flex-column min-w-0 text--gold clip'>
+            asd
+        </div>
     )}

@@ -2,14 +2,14 @@ import Component from "@/components/Logos/SiteLogo"
 import { ComponentMeta, ComponentStory } from "@storybook/react"
 
 export default {
-    title: "Symbols/Logos/Site",
+    title: "Graphics/Logos/Site",
     component: Component
 } as ComponentMeta<typeof Component>
 
 const Template: ComponentStory<typeof Component> = args => <Component {...args} />
 
-export const SiteLogo = Template.bind({})
-SiteLogo.args = {
+export const Site = Template.bind({})
+Site.args = {
     className: "text--dark",
     height: 64
 }

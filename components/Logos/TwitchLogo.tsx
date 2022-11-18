@@ -1,11 +1,7 @@
-import mergeClass from "utils/mergeClass"
+import ILogo from "@/interfaces/ILogo"
+import mergeClass from "@/utils/mergeClass"
 
-export interface Props {
-    className: string,
-    height: number|string   // pixels as number or string, or other units as string
-}
-
-export default function Logo ({ className = "", height = 32 }: Partial<Props>) {
+export default function TwitchLogo ({ className = "", height = 32 }: Partial<ILogo>) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" height={height} fill="currentColor" className={mergeClass([className, "bi bi-twitch"])} viewBox="0 0 16 16">
             <path d="M3.857 0 1 2.857v10.286h3.429V16l2.857-2.857H9.57L14.714 8V0H3.857zm9.714 7.429-2.285 2.285H9l-2 2v-2H4.429V1.143h9.142v6.286z"></path>
