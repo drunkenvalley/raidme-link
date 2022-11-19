@@ -1,5 +1,5 @@
 import Layout from "@/components/Layout"
-import TwitchLogo from "@/components/1logos/TwitchLogo"
+import TwitchLogo from "@/components/logos/TwitchLogo"
 import mergeClass from "@/utils/mergeClass"
 import Link from "next/link"
 import { ReactNode, useEffect, useState } from "react"

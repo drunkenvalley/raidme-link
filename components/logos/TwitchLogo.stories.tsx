@@ -1,16 +1,15 @@
-import Component from "@/components/1Icons/Star"
+import Component from "@/components/logos/TwitchLogo"
 import { ComponentMeta, ComponentStory } from "@storybook/react"
 
 export default {
-    title: "Graphics/Icons/Star",
+    title: "Graphics/Logos/Twitch",
     component: Component
 } as ComponentMeta<typeof Component>
 
 const Template: ComponentStory<typeof Component> = args => <Component {...args} />
 
-export const Star = Template.bind({})
-Star.args = {
-    className: "text--gold",
-    filled: true,
+export const Twitch = Template.bind({})
+Twitch.args = {
+    className: "text--purple",
     height: 64
 }

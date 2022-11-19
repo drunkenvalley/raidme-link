@@ -3,7 +3,7 @@ import { unstable_getServerSession } from "next-auth/next"
 import { BuiltInProviderType } from "next-auth/providers"
 import { ClientSafeProvider, getProviders, LiteralUnion, signIn } from "next-auth/react"
 import Layout from "@/components/Layout"
-import TwitchLogo from "@/components/1logos/TwitchLogo"
+import TwitchLogo from "@/components/logos/TwitchLogo"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
 
 interface Props {
