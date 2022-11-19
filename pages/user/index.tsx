@@ -33,8 +33,7 @@ export default function Dashboard() {
             .then(res => res.json())
             .then(res => {
                 setNext(res.pagination?.cursor)
-                const old = clips || []
-                setClips([...old, ...res.data])
+                setClips(old => [...old, ...res.data])
             })
             .catch(e => {
                 setError("Failed to load clips.")

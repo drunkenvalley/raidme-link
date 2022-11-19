@@ -1,15 +1,16 @@
-import Component from "@/components/Logos/SiteLogo"
+import Component from "@/components/1Icons/Star"
 import { ComponentMeta, ComponentStory } from "@storybook/react"
 
 export default {
-    title: "Graphics/Logos/Site",
+    title: "Graphics/Icons/Star",
     component: Component
 } as ComponentMeta<typeof Component>
 
 const Template: ComponentStory<typeof Component> = args => <Component {...args} />
 
-export const Site = Template.bind({})
-Site.args = {
-    className: "text--dark",
+export const Star = Template.bind({})
+Star.args = {
+    className: "text--gold",
+    filled: true,
     height: 64
 }

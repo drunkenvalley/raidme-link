@@ -1,6 +1,6 @@
 import IClip from "@/interfaces/IClip"
 import Image from "next/image"
-import Star from "@/components/Icons/Star"
+import Star from "@/components/1Icons/Star"
 import { MouseEventHandler } from "react"
 
 interface Props {
